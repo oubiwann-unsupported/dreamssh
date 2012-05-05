@@ -6,16 +6,19 @@ TMP_FILE ?= /tmp/MSG
 VIRT_DIR ?= .venv
 
 run:
-	twistd -noy bin/bot-prakasha.tac
+	twistd -noy bin/$(LIB).tac
 
 daemon:
-	twistd -y bin/bot-prakasha.tac
+	twistd -y bin/$(LIB).tac
 
 shell:
 	ssh -p 6622 127.0.0.1
 
 stop:
 	kill `cat twistd.pid`
+
+banner:
+	python -c "from inversum import config; print config.ssh.banner;"
 
 generate-config:
 	rm -rf ~/.$(PROJ)/config.ini
