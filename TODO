@@ -1,0 +1,6 @@
+* Add a custom shell, not a python prompt
+* Display time, day/night/sun location, weather, month, season, year, etc. at
+  each prompt
+* Allow for time multipliers
+* Integrate code from OpenPIX
+* Integrate code from Myriad Worlds
