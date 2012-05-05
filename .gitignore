@@ -18,9 +18,13 @@ pip-log.txt
 # Unit test / coverage reports
 .coverage
 .tox
+_trial_temp
 
 #Translations
 *.mo
 
-#Vim
+# Vim
 *.sw[po]
+
+# twistd
+twistd.*
