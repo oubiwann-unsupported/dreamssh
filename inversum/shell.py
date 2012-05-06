@@ -43,9 +43,13 @@ class MOTDColoredManhole(manhole.ColoredManhole):
     """
     ps = (":>> ", "... ")
 
-    def initializeScreen(self):
-        manhole.ColoredManhole.initializeScreen(self)
+    #def initializeScreen(self):
+    def connectionMade(self, *args, **kwargs):
+        #manhole.ColoredManhole.initializeScreen(self)
+        manhole.ColoredManhole.connectionMade(self, *args, **kwargs)
         self.terminal.write(self.getMOTD())
+        self.namespace.update({'clear': self.terminal.reset})
+        #self.namespace.update({'write': self.terminal.write})
 
     def getMOTD(self):
         return config.ssh.banner or "Welcome to MOTDColoredManhole!"
@@ -121,14 +125,14 @@ class CommandAPI(object):
 
 
 def updateNamespace(namespace):
-
+    sshService = namespace["services"].getServiceNamed(
+        config.ssh.servicename)
     commands = CommandAPI()
     namespace.update({
         "os": os,
         "sys": sys,
         "config": config,
         "pprint": pprint,
-        "ls": commands.ls,
         "banner": commands.banner,
         "info": commands.banner,
         })
