@@ -17,25 +17,7 @@ from twisted.python import components, failure, log
 
 from inversum import config
 from inversum import exceptions
-
-
-def _getKey(path):
-    if not os.path.exists(path):
-        raise exceptions.MissingSSHServerKeysError()
-    with open(path) as keyBlob:
-        return Key.fromString(data=keyBlob.read())
-
-
-def getPrivKey():
-    privKeyPath = os.path.join(
-        config.ssh.keydir, config.ssh.privkey)
-    return _getKey(privKeyPath)
-
-
-def getPubKey():
-    pubKeyPath = os.path.join(
-        config.ssh.keydir, config.ssh.pubkey)
-    return _getKey(pubKeyPath)
+from inversum import util
 
 
 class MOTDColoredManhole(manhole.ColoredManhole):
@@ -149,7 +131,7 @@ def getShellFactory(**namespace):
     realm.chainedProtocolFactory.protocolFactory = getManhole
     sshPortal = portal.Portal(realm)
     factory = manhole_ssh.ConchFactory(sshPortal)
-    factory.privateKeys = {'ssh-rsa': getPrivKey()}
-    factory.publicKeys = {'ssh-rsa': getPubKey()}
+    factory.privateKeys = {'ssh-rsa': util.getPrivKey()}
+    factory.publicKeys = {'ssh-rsa': util.getPubKey()}
     factory.portal.registerChecker(SSHPublicKeyDatabase())
     return factory

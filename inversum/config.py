@@ -47,6 +47,7 @@ ssh.banner = """:
 :
 """
 
+
 def buildDefaults():
     config = SafeConfigParser()
     config.add_section("SSH")

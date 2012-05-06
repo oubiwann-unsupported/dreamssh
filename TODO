@@ -1,16 +1,23 @@
 TODO
 ====
 
+Bugs
+----
+
+* Fix the initial login/screen clearing that removes the MOTD
+
+
 SMall Tasks
 -----------
 
 * Add support for dynamic prompts
-    * Display time, day/night/sun location, weather, month, season, year, etc. at
-      each prompt
+    * Display time, day/night/sun location, weather, month, season, year, etc.
+      at each prompt
     * Allow for time multipliers
 * Convert shell from a module to a subpackage
     * Move old terminal shell code into inversum.shell.pythonshell
     * Copy OpenPIX shell code into inversum.shell.terminalshell
+
 
 Bigger Items
 ------------
