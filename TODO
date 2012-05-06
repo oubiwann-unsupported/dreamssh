@@ -1,12 +1,23 @@
-* Add a custom shell, not a python prompt
-* Display time, day/night/sun location, weather, month, season, year, etc. at
-  each prompt
-* Allow for time multipliers
-* Integrate code from OpenPIX (commands, autocompletion)
-* Integrate code from Myriad Worlds (moving from room to room)
+TODO
+====
+
+SMall Tasks
+-----------
+
+* Add support for dynamic prompts
+    * Display time, day/night/sun location, weather, month, season, year, etc. at
+      each prompt
+    * Allow for time multipliers
 * Convert shell from a module to a subpackage
-* Move old terminal shell code into inversum.shell.pythonshell
-* Copy OpenPIX shell code into inversum.shell.terminalshell
+    * Move old terminal shell code into inversum.shell.pythonshell
+    * Copy OpenPIX shell code into inversum.shell.terminalshell
+
+Bigger Items
+------------
+
+* Add a custom shell, not a python prompt
+  * Integrate code from OpenPIX (commands, autocompletion)
+* Integrate code from Myriad Worlds (moving from room to room)
 * Support live-updating the game
   * edit the maps in-game
   * update room descriptions in-game
