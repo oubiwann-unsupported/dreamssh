@@ -15,13 +15,12 @@ class MOTDColoredManhole(manhole.ColoredManhole):
     def __init__(self, commandAPI, *args, **kwargs):
         manhole.ColoredManhole.__init__(self, *args, **kwargs)
         self.commandAPI = commandAPI
-        self._appData = None
 
     #def initializeScreen(self):
     def connectionMade(self, *args, **kwargs):
         #manhole.ColoredManhole.initializeScreen(self)
         manhole.ColoredManhole.connectionMade(self, *args, **kwargs)
-        self.terminal.write(self.getMOTD())
+        self.terminal.write(self.commandAPI.banner())
         self.updateNamespace()
         #self.namespace.update({'write': self.terminal.write})
 
@@ -33,47 +32,25 @@ class MOTDColoredManhole(manhole.ColoredManhole):
     def getSSHService(self):
         return self._getService(type="ssh")
 
-    def setAppData(self):
-        if not self._appData:
-            app = self.namespace.get("app")
-            self._appData = {
-                "servicecollection": app._adapterCache.get(
-                    "twisted.application.service.IServiceCollection"),
-                "multiservice": app._adapterCache.get(
-                    "twisted.application.service.IService"),
-                "process": app._adapterCache.get(
-                    "twisted.application.service.IProcess"),
-                }
-
-    def getAppData(self):
-        return pprint(self._appData)
-
     def updateNamespace(self, namespace={}):
-        clear = lambda: "undefined"
-        quit = lambda: "undefined"
-        if self.terminal:
-            clear = self.terminal.reset
-            quit = self.terminal.loseConnection
-        app = self.namespace.get("app")
-        if not self._appData:
-            self.setAppData()
+        if not self.commandAPI.appOrig:
+            self.commandAPI.appOrig = self.namespace.get("app")
         namespace.update({
-            "app": self.getAppData,
             "os": os,
             "sys": sys,
             "config": config,
             "pprint": pprint,
+            "app": self.commandAPI.getAppData,
             "banner": self.commandAPI.banner,
             "info": self.commandAPI.banner,
             "ls": self.commandAPI.ls,
-            "clear": clear,
-            "quit": quit,
+            "clear": self.commandAPI.clear,
+            "quit": self.commandAPI.quit,
             })
-        self.commandAPI.setNamespace(namespace)
         self.namespace.update(namespace)
-
-    def getMOTD(self):
-        return config.ssh.banner or "Welcome to MOTDColoredManhole!"
+        self.commandAPI.setNamespace(self.namespace)
+        self.commandAPI.setTerminal(self.terminal)
+        self.commandAPI.setAppData()
 
 
 class TerminalSession(manhole_ssh.TerminalSession):
@@ -86,9 +63,5 @@ class TerminalSession(manhole_ssh.TerminalSession):
 class SessionForTerminalUser(object):
     """
     """
-
     def __init__(self, avatar):
         self.avatar = avatar
-
-
-

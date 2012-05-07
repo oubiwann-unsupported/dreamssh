@@ -12,7 +12,7 @@ daemon:
 	twistd -y bin/$(LIB).tac
 
 shell:
-	ssh -p 6622 127.0.0.1
+	-@ssh -p 6622 127.0.0.1
 
 stop:
 	kill `cat twistd.pid`

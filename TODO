@@ -5,22 +5,20 @@ Bugs
 ----
 
 * Fix the initial login/screen clearing that removes the MOTD
-* dir() and ls() in the pythonshell do not return the same values
-  * "services" is missing from the output of "ls"
-
+* When executing the "clear" shell command, the new screen has a newline at the
+  top
 
 Small Tasks
 -----------
 
 * Make all the shell commands callable just by typing them (without having to
   add the parens)
+  * can't just make them properties, 'cause they'll get called when the
+    namespace is created
 * Add support for dynamic prompts
     * Display time, day/night/sun location, weather, month, season, year, etc.
       at each prompt
     * Allow for time multipliers
-* Convert shell from a module to a subpackage
-    * Move old terminal shell code into inversum.shell.pythonshell
-    * Copy OpenPIX shell code into inversum.shell.terminalshell
 
 
 Bigger Items
@@ -28,6 +26,7 @@ Bigger Items
 
 * Add a custom shell, not a python prompt
   * Integrate code from OpenPIX (commands, autocompletion)
+  * Copy OpenPIX shell code into inversum.shell.gameshell
 * Integrate code from Myriad Worlds (moving from room to room)
 * Support live-updating the game
   * edit the maps in-game
