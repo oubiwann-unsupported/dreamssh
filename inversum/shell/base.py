@@ -16,13 +16,9 @@ class MOTDColoredManhole(manhole.ColoredManhole):
         manhole.ColoredManhole.__init__(self, *args, **kwargs)
         self.commandAPI = commandAPI
 
-    #def initializeScreen(self):
     def connectionMade(self, *args, **kwargs):
-        #manhole.ColoredManhole.initializeScreen(self)
         manhole.ColoredManhole.connectionMade(self, *args, **kwargs)
-        self.terminal.write(self.commandAPI.banner())
         self.updateNamespace()
-        #self.namespace.update({'write': self.terminal.write})
 
     def _getService(self, type="ssh"):
         if type == "ssh":
@@ -53,9 +49,25 @@ class MOTDColoredManhole(manhole.ColoredManhole):
         self.commandAPI.setAppData()
 
 
+class TerminalSessionTransport(manhole_ssh.TerminalSessionTransport):
+    """
+    """
+    def __init__(self, proto, chainedProtocol, avatar, width, height):
+        manhole_ssh.TerminalSessionTransport.__init__(
+            self, proto, chainedProtocol, avatar, width, height)
+        log.msg(proto)
+        log.msg(self.chainedProtocol)
+        log.msg(self.chainedProtocol.terminalProtocol)
+        termProto = self.chainedProtocol.terminalProtocol
+        termProto.terminal.write("\r\n" + config.ssh.banner + "\r\n")
+        termProto.terminal.write(termProto.ps[termProto.pn])
+
+
 class TerminalSession(manhole_ssh.TerminalSession):
     """
     """
+    transportFactory = TerminalSessionTransport
+
     def windowChanged(self, coords):
         log.msg("New coordinates: %s" % str(coords))
 

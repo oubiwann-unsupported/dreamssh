@@ -44,7 +44,8 @@ class CommandAPI(object):
         width = max([len(x) for x in self.namespace.keys()])
         for key, value in sorted(self.namespace.items()):
             info = ""
-            if isinstance(value, dict) or key == "services":
+            if (isinstance(value, dict) or 
+                isinstance(value, list) or key == "services"):
                 info = "data"
             elif type(value).__name__ == "module":
                 info = value.__name__
@@ -97,6 +98,7 @@ class ExecutingTerminalRealm(manhole_ssh.TerminalRealm):
     """
     """
     sessionFactory = ExecutingTerminalSession
+    transportFactory = base.TerminalSessionTransport
 
     def __init__(self, namespace):
         self.sessionFactory.namespace = namespace
