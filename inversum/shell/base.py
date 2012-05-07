@@ -50,8 +50,10 @@ class MOTDColoredManhole(manhole.ColoredManhole):
 
     def updateNamespace(self, namespace={}):
         clear = lambda: "undefined"
+        quit = lambda: "undefined"
         if self.terminal:
             clear = self.terminal.reset
+            quit = self.terminal.loseConnection
         app = self.namespace.get("app")
         if not self._appData:
             self.setAppData()
@@ -63,8 +65,9 @@ class MOTDColoredManhole(manhole.ColoredManhole):
             "pprint": pprint,
             "banner": self.commandAPI.banner,
             "info": self.commandAPI.banner,
-            "clear": clear,
             "ls": self.commandAPI.ls,
+            "clear": clear,
+            "quit": quit,
             })
         self.commandAPI.setNamespace(namespace)
         self.namespace.update(namespace)
