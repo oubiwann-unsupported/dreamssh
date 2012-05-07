@@ -6,10 +6,10 @@ TMP_FILE ?= /tmp/MSG
 VIRT_DIR ?= .venv
 
 run:
-	twistd -noy bin/$(LIB).tac
+	twistd -n inversum
 
 daemon:
-	twistd -y bin/$(LIB).tac
+	twistd inversum
 
 shell:
 	-@ssh -p 6622 127.0.0.1

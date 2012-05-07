@@ -19,11 +19,19 @@ Small Tasks
     * Display time, day/night/sun location, weather, month, season, year, etc.
       at each prompt
     * Allow for time multipliers
+* 
 
 
 Bigger Items
 ------------
 
+* Split out SSH Server code into a separate project?
+  * makebe call it DreamShell?
+  * make prakaha-bot use it
+  * make inversum use it
+* Update SSH server to accept keys from non-~/.ssh dirs
+  * store keys in configured dir
+  * maaybe subdirs, divided by user?
 * Add a custom shell, not a python prompt
   * Integrate code from OpenPIX (commands, autocompletion)
   * Copy OpenPIX shell code into inversum.shell.gameshell
