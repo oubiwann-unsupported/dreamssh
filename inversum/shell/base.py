@@ -55,9 +55,9 @@ class TerminalSessionTransport(manhole_ssh.TerminalSessionTransport):
     def __init__(self, proto, chainedProtocol, avatar, width, height):
         manhole_ssh.TerminalSessionTransport.__init__(
             self, proto, chainedProtocol, avatar, width, height)
-        log.msg(proto)
-        log.msg(self.chainedProtocol)
-        log.msg(self.chainedProtocol.terminalProtocol)
+        self.writeMOTD()
+
+    def writeMOTD(self):
         termProto = self.chainedProtocol.terminalProtocol
         termProto.terminal.write("\r\n" + config.ssh.banner + "\r\n")
         termProto.terminal.write(termProto.ps[termProto.pn])
