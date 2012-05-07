@@ -1,37 +1,73 @@
-import base64
-from glob import glob
 import os
 from pprint import pprint
 import sys
 
-from zope import interface
-
-from twisted.cred import checkers, portal
-from twisted.conch import interfaces, manhole, manhole_ssh, unix
-from twisted.conch.checkers import SSHPublicKeyDatabase
-from twisted.conch.ssh import filetransfer, session
-from twisted.conch.ssh.channel import SSHChannel
-from twisted.conch.ssh.factory import SSHFactory
-from twisted.conch.ssh.keys import Key
-from twisted.python import components, failure, log
+from twisted.conch import manhole, manhole_ssh
+from twisted.python import log
 
 from inversum import config
-from inversum import exceptions
-from inversum import util
 
 
 class MOTDColoredManhole(manhole.ColoredManhole):
     """
     """
     ps = (":>> ", "... ")
+    def __init__(self, commandAPI, *args, **kwargs):
+        manhole.ColoredManhole.__init__(self, *args, **kwargs)
+        self.commandAPI = commandAPI
+        self._appData = None
 
     #def initializeScreen(self):
     def connectionMade(self, *args, **kwargs):
         #manhole.ColoredManhole.initializeScreen(self)
         manhole.ColoredManhole.connectionMade(self, *args, **kwargs)
         self.terminal.write(self.getMOTD())
-        self.namespace.update({'clear': self.terminal.reset})
+        self.updateNamespace()
         #self.namespace.update({'write': self.terminal.write})
+
+    def _getService(self, type="ssh"):
+        if type == "ssh":
+            return self.namespace["services"].getServiceNamed(
+                config.ssh.servicename)
+
+    def getSSHService(self):
+        return self._getService(type="ssh")
+
+    def setAppData(self):
+        if not self._appData:
+            app = self.namespace.get("app")
+            self._appData = {
+                "servicecollection": app._adapterCache.get(
+                    "twisted.application.service.IServiceCollection"),
+                "multiservice": app._adapterCache.get(
+                    "twisted.application.service.IService"),
+                "process": app._adapterCache.get(
+                    "twisted.application.service.IProcess"),
+                }
+
+    def getAppData(self):
+        return pprint(self._appData)
+
+    def updateNamespace(self, namespace={}):
+        clear = lambda: "undefined"
+        if self.terminal:
+            clear = self.terminal.reset
+        app = self.namespace.get("app")
+        if not self._appData:
+            self.setAppData()
+        namespace.update({
+            "app": self.getAppData,
+            "os": os,
+            "sys": sys,
+            "config": config,
+            "pprint": pprint,
+            "banner": self.commandAPI.banner,
+            "info": self.commandAPI.banner,
+            "clear": clear,
+            "ls": self.commandAPI.ls,
+            })
+        self.commandAPI.setNamespace(namespace)
+        self.namespace.update(namespace)
 
     def getMOTD(self):
         return config.ssh.banner or "Welcome to MOTDColoredManhole!"
@@ -44,29 +80,6 @@ class TerminalSession(manhole_ssh.TerminalSession):
         log.msg("New coordinates: %s" % str(coords))
 
 
-class ExecutingTerminalSession(TerminalSession):
-    """
-    """
-    def _processShellCommand(self, cmd, namespace):
-        try:
-            result = eval(cmd, namespace)
-        except NameError:
-            command = cmd.split("(")[0]
-            msg = "Command '%s' not found in namespace!" % command
-            raise exceptions.IllegalAPICommand(msg)
-
-    def execCommand(self, proto, cmd):
-        avatar = proto.session.avatar
-        conn = avatar.conn
-        namespace = updateNamespace(proto.session.session.namespace)
-        if cmd.startswith("scp"):
-            # XXX raise custom error
-            pass
-        else:
-            self._processShellCommand(cmd, namespace)
-            avatar.conn.transport.loseConnection()
-
-
 class SessionForTerminalUser(object):
     """
     """
@@ -75,63 +88,4 @@ class SessionForTerminalUser(object):
         self.avatar = avatar
 
 
-class ExecutingTerminalRealm(manhole_ssh.TerminalRealm):
-    """
-    """
-    sessionFactory = ExecutingTerminalSession
 
-    def __init__(self, namespace):
-        self.sessionFactory.namespace = namespace
-
-
-class CommandAPI(object):
-
-    def __init__(self):
-        self.namespace = None
-
-    def setNamespace(self, namespace):
-        self.namespace = namespace
-
-    def ls(self):
-        """
-        List the objects in the current namespace, in alphabetical order.
-        """
-        keys = sorted(self.namespace.keys())
-        pprint(keys)
-
-    def banner(self):
-        """
-        Display the login banner and associated help or info.
-        """
-        print config.ssh.banner
-
-
-def updateNamespace(namespace):
-    sshService = namespace["services"].getServiceNamed(
-        config.ssh.servicename)
-    commands = CommandAPI()
-    namespace.update({
-        "os": os,
-        "sys": sys,
-        "config": config,
-        "pprint": pprint,
-        "banner": commands.banner,
-        "info": commands.banner,
-        })
-    commands.setNamespace(namespace)
-    return namespace
-
-
-def getShellFactory(**namespace):
-
-    def getManhole(serverProtocol):
-        return MOTDColoredManhole(updateNamespace(namespace))
-
-    realm = ExecutingTerminalRealm(namespace)
-    realm.chainedProtocolFactory.protocolFactory = getManhole
-    sshPortal = portal.Portal(realm)
-    factory = manhole_ssh.ConchFactory(sshPortal)
-    factory.privateKeys = {'ssh-rsa': util.getPrivKey()}
-    factory.publicKeys = {'ssh-rsa': util.getPubKey()}
-    factory.portal.registerChecker(SSHPublicKeyDatabase())
-    return factory

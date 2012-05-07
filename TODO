@@ -5,6 +5,7 @@ Bugs
 ----
 
 * Fix the initial login/screen clearing that removes the MOTD
+* dir() and ls() in the pythonshell do not return the same values
 
 
 SMall Tasks
@@ -17,6 +18,7 @@ SMall Tasks
 * Convert shell from a module to a subpackage
     * Move old terminal shell code into inversum.shell.pythonshell
     * Copy OpenPIX shell code into inversum.shell.terminalshell
+* Add a command for quitting that closes the connection
 
 
 Bigger Items

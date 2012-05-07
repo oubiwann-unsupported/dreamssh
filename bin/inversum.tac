@@ -6,7 +6,7 @@ from twisted.internet.protocol import ServerFactory
 from twisted.internet.ssl import ClientContextFactory
 
 from inversum import auth, config, meta
-from inversum.shell.base import getShellFactory
+from inversum.shell.service import getShellFactory
 
 
 # primary setup

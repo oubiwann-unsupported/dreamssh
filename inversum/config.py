@@ -1,5 +1,4 @@
 from ConfigParser import SafeConfigParser
-import json
 import os
 
 

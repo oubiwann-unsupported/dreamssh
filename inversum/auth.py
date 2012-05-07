@@ -1,7 +1,7 @@
 from zope.interface import implements
 
 from twisted.cred import checkers, portal
-from twisted.web import guard, http, resource, static
+from twisted.web import guard, resource
 
 from inversum import config
 
