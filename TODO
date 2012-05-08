@@ -79,3 +79,8 @@ Bigger Items
   * create a user account (via telnet)
   * choose a class
   * upload SSH keys (via https)
+* Add support for shared sessions
+  * we want to be able to provide a shell where everyone that logs in sees what
+    everyone else is doing
+  * this can be prototyped in the sandbox
+  * this should be as easy as setting up a singleton session...
