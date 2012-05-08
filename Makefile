@@ -17,6 +17,9 @@ shell:
 stop:
 	kill `cat twistd.pid`
 
+test-run:
+	make daemon && make shell && make stop
+
 banner:
 	python -c "from inversum import config; print config.ssh.banner;"
 
