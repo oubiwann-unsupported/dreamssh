@@ -37,6 +37,10 @@ class Interpreter(object):
 
 def connectionMade(self, *args, **kwargs):
     connectionMadeOrig(self)
+    # As a general solution, a custom class can have a setInterpreter method,
+    # override connectionMade, updall connectionMade, and then call its
+    # setInterpreter method. This way, any subclass can provide it's own
+    # interpreter.
     self.interpreter = Interpreter(self)
 
 
