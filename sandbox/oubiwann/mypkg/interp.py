@@ -29,10 +29,17 @@ class Interpreter(object):
         return more
 
     def runsource(self, input, filename):
-        self.write("a = %s, b = %s" % (a, b))
+        raise NotImplementedError()
 
     def write(self, data, async=False):
         self.handler.addOutput(data, async)
+
+
+class EchoInterpreter(Interpreter):
+    """
+    """
+    def runsource(self, input, filename):
+        self.write("input = %s, filename = %s" % (input, filename))
 
 
 def connectionMade(self, *args, **kwargs):
@@ -41,7 +48,7 @@ def connectionMade(self, *args, **kwargs):
     # override connectionMade, upcall connectionMade, and then call its
     # setInterpreter method. This way, any subclass can provide it's own
     # interpreter.
-    self.interpreter = Interpreter(self)
+    self.interpreter = EchoInterpreter(self)
 
 
 Manhole.connectionMade = connectionMade
