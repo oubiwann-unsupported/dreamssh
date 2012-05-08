@@ -8,13 +8,15 @@ Bugs
   top
 
 
-SSH Server
-----------
+Tasks
+-----
 
 * Split out SSH Server code into a separate project?
   * makebe call it DreamShell?
   * make prakaha-bot use it
   * make inversum use it
+
+* Find all occurances of inversum and change them to dreamssh
 
 * Add support for dynamic prompts
 
@@ -45,71 +47,3 @@ SSH Server
     everyone else is doing
   * this can be prototyped in the sandbox
   * this should be as easy as setting up a singleton session...
-
-
-MUD Server
-----------
-* Split out game and game engine?
-  * update myriad-worlds to use DreamSSH?
-  * myriad-worlds is very large in scope, though... designed for full-on RPG
-    games
-  * perhaps a DreamMUD?
-
-* Add a custom shell, not a python prompt
-  * Integrate code from OpenPIX (commands, autocompletion)
-  * Copy OpenPIX shell code into inversum.shell.gameshell
-
-* Integrate code from Myriad Worlds (moving from room to room)
-  * update myriad-worlds to support map types
-  * currently, it supports rooms/dungeons
-  * update it to support terrain as well
-
-* Add environment info to status bar/area
-    * Display time, day/night/sun location, weather, month, season, year, etc.
-    * Allow for time multipliers (for slower or faster moving time)
-
-* Support live-updating the game
-  * edit the maps in-game
-  * update room descriptions in-game
-
-* Add support for game roles
-  * limit contents of namespace based on role
-  * Wizard, Player, others?
-
-* Added support for full command list:
-    http://tinymush.sourceforge.net/docs/qhelp.txt
-    http://tinymush.sourceforge.net/docs/help.txt
-    http://pages.cs.wisc.edu/~bolo/shipyard/muckdoc3.html
-    http://tinymush.sourceforge.net/docs/wizhelp.txt
-    http://www.circlemud.org/pub/CircleMUD/3.x/uncompressed/current/doc/wizhelp.txt
-
-* Start planning how players will build things
-    http://post.queensu.ca/~fletchra/Caw/Bhndbk/
-    http://graphcomp.com/info/mud/pennmush/guide-single.html
-    http://www.circlemud.org/pub/CircleMUD/3.x/uncompressed/current/doc/building.pdf
-
-* Add classes:
-  * TechSupport - Cleric/Healer/Priest
-  * SysAdmin - Warrior
-  * Dev - Mage/Spellcaster
-  * NetEng - Shaman
-  * Marketing - Psion
-  * Blogger - Bard
-  * Manager - Prince
-  * BizDev - Rouge/Thief
-  * BoardMember - Illuminati
-  * BeanCounter - Artificer
-  * DataCenter - Barbarian
-  * Consultant - Assassin
-  * ProjectManager - Druid
-
-* Monsters:
-  * utility companies
-  * government agencies
-  * company competitors
-
-* Provide a service for usres to login anonymously:
-  * maybe the lobby?
-  * create a user account (via telnet)
-  * choose a class
-  * upload SSH keys (via https)
