@@ -1,13 +1,15 @@
 from twisted.application import service, internet
 from twisted.python import usage
 
-from inversum import config, meta
-from inversum.shell.service import getShellFactory
+from dreamssh import config, meta
+from dreamssh.shell.service import getShellFactory
 
 
 class Options(usage.Options):
     """
     """
+    # XXX add options for determining which interpreter to run
+
 
 def makeService(options):
     # primary setup

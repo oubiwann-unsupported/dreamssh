@@ -2,9 +2,9 @@ from pprint import pprint
 
 from twisted.conch import manhole_ssh
 
-from inversum import config
-from inversum import exceptions
-from inversum.shell import base
+from dreamssh import config
+from dreamssh import exceptions
+from dreamssh.shell import base
 
 
 class CommandAPI(object):

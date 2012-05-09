@@ -1,6 +1,8 @@
 from ConfigParser import SafeConfigParser
 import os
 
+from dreamssh import meta
+
 
 class Config(object): pass
 
@@ -8,14 +10,14 @@ class Config(object): pass
 # Main
 main = Config()
 main.config = Config()
-main.config.userdir = os.path.expanduser("~/.inversum-aetatis")
+main.config.userdir = os.path.expanduser("~/.%s" % meta.library_name)
 main.config.localfile = "config.ini"
 main.config.userfile = "%s/%s" % (main.config.userdir, main.config.localfile)
 
 # Internal SSH Server
 ssh = Config()
-ssh.servicename = "SSH Server"
-ssh.port = 6622
+ssh.servicename = meta.description
+ssh.port = 2222
 ssh.username = "root"
 ssh.keydir = os.path.join(main.config.userdir, "ssh")
 ssh.privkey = "id_rsa"
@@ -24,23 +26,17 @@ ssh.localdir = "~/.ssh"
 ssh.banner = """:
 : Welcome to
 :
+:________                              ____________________  __
+:___  __ \_________________ _______ _____  ___/_  ___/__  / / /
+:__  / / /_  ___/  _ \  __ `/_  __ `__ \____ \_____ \__  /_/ /
+:_  /_/ /_  /   /  __/ /_/ /_  / / / / /___/ /____/ /_  __  /
+:/_____/ /_/    \___/\__,_/ /_/ /_/ /_//____/ /____/ /_/ /_/
 :
 :
-:                                                                   ___ 
-:                            ___ __ _ _   _ ___ __ _ _____   ____ _|_ _|
-:                           / _ ' _` | | | |__ \__` / _ \ \ / / _` || | 
-:                          | | | | | | |_| / __/  | \__  \ V / | | || | 
-:                          |_| |_| |_|_.__/\___|  |_|___/ \_/|_| |_|___|
+: You have logged into a DreamSSH Server.
+: {{HELP}}
 :
-:                                              _   _        _        _    
-:                                          ___(_)_| |_ __ _| |___   / \   
-:                                         |__ \ |__ | '_ \__ / _ \ / _ \  
-:                                         / __/ |_| | |_) || \__  / ___ \ 
-:                                         \___|_|__/|_.__/__/|___/_/   \_\\
-:                                                                              
-:
-: You have entered the inverted age.
-: Type 'dir()' to see the objects in the current namespace.
+: Type 'ls()' or 'dir()' to see the objects in the current namespace.
 :
 : Enjoy!
 :

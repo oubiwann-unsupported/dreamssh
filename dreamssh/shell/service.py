@@ -2,8 +2,8 @@ from twisted.cred import portal
 from twisted.conch import manhole_ssh
 from twisted.conch.checkers import SSHPublicKeyDatabase
 
-from inversum import util
-from inversum.shell import base, pythonshell, gameshell
+from dreamssh import util
+from dreamssh.shell import base, pythonshell, gameshell
 
 
 def getShellFactory(**namespace):

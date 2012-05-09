@@ -5,7 +5,7 @@ import sys
 from twisted.conch import manhole, manhole_ssh
 from twisted.python import log
 
-from inversum import config
+from dreamssh import config
 
 
 class MOTDColoredManhole(manhole.ColoredManhole):

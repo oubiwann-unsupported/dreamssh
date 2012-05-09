@@ -1,31 +1,31 @@
-PROJ := inversum-aetatis
-LIB := inversum
+PROJ := dreamssh
+LIB := dreamssh
 GITHUB_REPO := github.com:dreamhost/$(PROJ).git
 PKG_NAME := $(PROJ)
 TMP_FILE ?= /tmp/MSG
 VIRT_DIR ?= .venv
 
 run:
-	twistd -n inversum
+	twistd -n dreamssh
 
 daemon:
-	twistd inversum
+	twistd dreamssh
 
 shell:
-	-@ssh -p 6622 127.0.0.1
+	-@ssh -p 2222 127.0.0.1
 
 stop:
 	kill `cat twistd.pid`
 
-test-run:
+run-test:
 	make daemon && make shell && make stop
 
 banner:
-	python -c "from inversum import config; print config.ssh.banner;"
+	python -c "from $(LIB) import config; print config.ssh.banner;"
 
 generate-config:
 	rm -rf ~/.$(PROJ)/config.ini
-	python -c "from inversum import config; config.writeDefaults();"
+	python -c "from $(LIB) import config; config.writeDefaults();"
 
 log-concise:
 	git log --oneline
