@@ -16,6 +16,13 @@ Tasks
   * make prakaha-bot use it
   * make inversum use it
 
+* Add support for base interpreters and a simple interpreter example
+
+* Make the interpreter choice a plugin option (command line parameter)
+  * substitute help text appropriate for the interpreter into the banner
+
+* Add 'exit()' command as an alias for 'quit()'
+
 * Find all occurances of inversum and change them to dreamssh
 
 * Add support for dynamic prompts
