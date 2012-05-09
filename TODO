@@ -6,28 +6,33 @@ Bugs
 
 * When executing the "clear" shell command, the new screen has a newline at the
   top
+* EchoInterpreter is not working right now, when it's swapped for
+  DreamSSHInterpreter
 
 
 Tasks
 -----
 
+* Update README on basic usage
+
 * Split out SSH Server code into a separate project?
   * makebe call it DreamShell?
+    * nope :-) DreamSSH
   * make prakaha-bot use it
   * make inversum use it
-
-* Add support for base interpreters and a simple interpreter example
 
 * Make the interpreter choice a plugin option (command line parameter)
   * substitute help text appropriate for the interpreter into the banner
 
-* Add 'exit()' command as an alias for 'quit()'
-
-* Find all occurances of inversum and change them to dreamssh
+* Maybe move commandAPI from shell.base.MOTDColoredManhole to
+  DreamSSHInterpreter
 
 * Add support for dynamic prompts
 
 * Add support for a status bar on the screen somewhere
+
+* Remove os and sys calls that aren't safe
+  * maybe follow Google App Engine's lead on this one
 
 * Update SSH server to accept keys from non-~/.ssh dirs
   * store keys in configured dir

@@ -6,6 +6,7 @@ from twisted.conch import manhole, manhole_ssh
 from twisted.python import log
 
 from dreamssh import config
+from dreamssh.shell.interpreter import DreamSSHInterpreter
 
 
 class MOTDColoredManhole(manhole.ColoredManhole):
@@ -18,6 +19,8 @@ class MOTDColoredManhole(manhole.ColoredManhole):
 
     def connectionMade(self, *args, **kwargs):
         manhole.ColoredManhole.connectionMade(self, *args, **kwargs)
+        # XXX how can we make this dynamic, based on options passed to twistd?
+        self.setInterpreter()
         self.updateNamespace()
 
     def _getService(self, type="ssh"):
@@ -28,22 +31,19 @@ class MOTDColoredManhole(manhole.ColoredManhole):
     def getSSHService(self):
         return self._getService(type="ssh")
 
+    def setInterpreter(self, klass=None, namespace={}):
+        if namespace:
+            self.updateNamespace(namespace)
+        else:
+            namespace = self.namespace
+        if not klass:
+            klass = DreamSSHInterpreter
+            #from dreamssh.shell.interpreter import EchoInterpreter
+            #klass = EchoInterpreter
+        self.interpreter = klass(self, locals=namespace)
+
     def updateNamespace(self, namespace={}):
-        if not self.commandAPI.appOrig:
-            self.commandAPI.appOrig = self.namespace.get("app")
-        namespace.update({
-            "os": os,
-            "sys": sys,
-            "config": config,
-            "pprint": pprint,
-            "app": self.commandAPI.getAppData,
-            "banner": self.commandAPI.banner,
-            "info": self.commandAPI.banner,
-            "ls": self.commandAPI.ls,
-            "clear": self.commandAPI.clear,
-            "quit": self.commandAPI.quit,
-            })
-        self.namespace.update(namespace)
+        self.interpreter.updateNamespace(namespace)
         self.commandAPI.setNamespace(self.namespace)
         self.commandAPI.setTerminal(self.terminal)
         self.commandAPI.setAppData()
