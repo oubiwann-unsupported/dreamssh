@@ -91,6 +91,14 @@ class PythonTerminalRealm(base.ExecutingTerminalRealm):
     """
     sessionFactory = PythonTerminalSession
 
+    def __init__(self, namespace):
+        base.ExecutingTerminalRealm.__init__(self, namespace)
+
+        def getManhole(serverProtocol):
+            return PythonManhole(CommandAPI(), namespace)
+
+        self.chainedProtocolFactory.protocolFactory = getManhole
+
 
 class PythonInterpreter(ManholeInterpreter):
     """
