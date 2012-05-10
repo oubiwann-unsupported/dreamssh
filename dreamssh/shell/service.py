@@ -3,16 +3,23 @@ from twisted.conch import manhole_ssh
 from twisted.conch.checkers import SSHPublicKeyDatabase
 
 from dreamssh import util
-from dreamssh.shell import base, pythonshell, gameshell
+from dreamssh.shell import base, pythonshell
 
 
-def getShellFactory(**namespace):
+def realmFactory(interpreterType, namespace):
+    if interpreterType == base.PYTHON:
+        pass
+    elif interpreterType == base.ECHO:
+        pass
+
+
+def getShellFactory(interpreterType, **namespace):
 
     def getManhole(serverProtocol):
         commandAPI = pythonshell.CommandAPI()
-        return base.MOTDColoredManhole(commandAPI, namespace)
+        return pythonshell.PythonManhole(commandAPI, namespace)
 
-    realm = pythonshell.ExecutingTerminalRealm(namespace)
+    realm = pythonshell.PythonTerminalRealm(namespace)
     realm.chainedProtocolFactory.protocolFactory = getManhole
     sshPortal = portal.Portal(realm)
     factory = manhole_ssh.ConchFactory(sshPortal)

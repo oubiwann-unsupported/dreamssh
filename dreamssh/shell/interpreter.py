@@ -45,29 +45,5 @@ class EchoInterpreter(Interpreter):
     def runsource(self, input, filename):
         self.write("input = %s, filename = %s" % (input, filename))
 
-    def updateNamespace(self, controller, namespace={}):
-        pass
-
-
-class DreamSSHInterpreter(ManholeInterpreter):
-    """
-    """
-    # XXX namespace code needs to be better organized:
-    #   * should the CommandAPI be in this module? 
     def updateNamespace(self, namespace={}):
-        if not self.handler.commandAPI.appOrig:
-            self.handler.commandAPI.appOrig = self.handler.namespace.get("app")
-        namespace.update({
-            "os": os,
-            "sys": sys,
-            "config": config,
-            "pprint": pprint,
-            "app": self.handler.commandAPI.getAppData,
-            "banner": self.handler.commandAPI.banner,
-            "info": self.handler.commandAPI.banner,
-            "ls": self.handler.commandAPI.ls,
-            "clear": self.handler.commandAPI.clear,
-            "quit": self.handler.commandAPI.quit,
-            "exit": self.handler.commandAPI.quit,
-            })
-        self.handler.namespace.update(namespace)
+        pass

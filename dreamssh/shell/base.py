@@ -6,7 +6,6 @@ from twisted.conch import manhole, manhole_ssh
 from twisted.python import log
 
 from dreamssh import config
-from dreamssh.shell.interpreter import DreamSSHInterpreter
 
 
 class MOTDColoredManhole(manhole.ColoredManhole):
@@ -31,22 +30,11 @@ class MOTDColoredManhole(manhole.ColoredManhole):
     def getSSHService(self):
         return self._getService(type="ssh")
 
-    def setInterpreter(self, klass=None, namespace={}):
-        if namespace:
-            self.updateNamespace(namespace)
-        else:
-            namespace = self.namespace
-        if not klass:
-            klass = DreamSSHInterpreter
-            #from dreamssh.shell.interpreter import EchoInterpreter
-            #klass = EchoInterpreter
-        self.interpreter = klass(self, locals=namespace)
+    def setInterpreter(self, namespace={}):
+        raise NotImplementedError()
 
     def updateNamespace(self, namespace={}):
-        self.interpreter.updateNamespace(namespace)
-        self.commandAPI.setNamespace(self.namespace)
-        self.commandAPI.setTerminal(self.terminal)
-        self.commandAPI.setAppData()
+        raise NotImplementedError()
 
 
 class TerminalSessionTransport(manhole_ssh.TerminalSessionTransport):
@@ -72,8 +60,29 @@ class TerminalSession(manhole_ssh.TerminalSession):
         log.msg("New coordinates: %s" % str(coords))
 
 
-class SessionForTerminalUser(object):
+class ExecutingTerminalSession(TerminalSession):
     """
     """
-    def __init__(self, avatar):
-        self.avatar = avatar
+    def _processShellCommand(self, cmd, namespace):
+        raise NotImplementedError()
+
+    def execCommand(self, proto, cmd):
+        avatar = proto.session.avatar
+        conn = avatar.conn
+        namespace = proto.session.session.namespace
+        if cmd.startswith("scp"):
+            exceptions.UnsupportedSubsystemError("scp is not supported")
+        else:
+            self._processShellCommand(cmd, namespace)
+            conn.transport.loseConnection()
+
+
+class ExecutingTerminalRealm(manhole_ssh.TerminalRealm):
+    """
+    """
+    sessionFactory = ExecutingTerminalSession
+    transportFactory = TerminalSessionTransport
+
+    def __init__(self, namespace):
+        manhole_ssh.TerminalRealm.__init__(self)
+        self.sessionFactory.namespace = namespace

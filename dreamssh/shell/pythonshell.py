@@ -1,6 +1,9 @@
+import os
 from pprint import pprint
+import sys
 
 from twisted.conch import manhole_ssh
+from twisted.conch.manhole import ManholeInterpreter
 
 from dreamssh import config
 from dreamssh import exceptions
@@ -71,7 +74,7 @@ class CommandAPI(object):
         self.terminal.loseConnection()
 
 
-class ExecutingTerminalSession(base.TerminalSession):
+class PythonTerminalSession(base.ExecutingTerminalSession):
     """
     """
     def _processShellCommand(self, cmd, namespace):
@@ -82,23 +85,49 @@ class ExecutingTerminalSession(base.TerminalSession):
             msg = "Command '%s' not found in namespace!" % command
             raise exceptions.IllegalAPICommand(msg)
 
-    def execCommand(self, proto, cmd):
-        avatar = proto.session.avatar
-        conn = avatar.conn
-        namespace = proto.session.session.namespace
-        if cmd.startswith("scp"):
-            # XXX raise custom error
-            pass
+
+class PythonTerminalRealm(base.ExecutingTerminalRealm):
+    """
+    """
+    sessionFactory = PythonTerminalSession
+
+
+class PythonInterpreter(ManholeInterpreter):
+    """
+    """
+    # XXX namespace code needs to be better organized:
+    #   * should the CommandAPI be in this module? 
+    def updateNamespace(self, namespace={}):
+        if not self.handler.commandAPI.appOrig:
+            self.handler.commandAPI.appOrig = self.handler.namespace.get("app")
+        namespace.update({
+            "os": os,
+            "sys": sys,
+            "config": config,
+            "pprint": pprint,
+            "app": self.handler.commandAPI.getAppData,
+            "banner": self.handler.commandAPI.banner,
+            "info": self.handler.commandAPI.banner,
+            "ls": self.handler.commandAPI.ls,
+            "clear": self.handler.commandAPI.clear,
+            "quit": self.handler.commandAPI.quit,
+            "exit": self.handler.commandAPI.quit,
+            })
+        self.handler.namespace.update(namespace)
+
+
+class PythonManhole(base.MOTDColoredManhole):
+    """
+    """
+    def setInterpreter(self, klass=None, namespace={}):
+        if namespace:
+            self.updateNamespace(namespace)
         else:
-            self._processShellCommand(cmd, namespace)
-            conn.transport.loseConnection()
+            namespace = self.namespace
+        self.interpreter = PythonInterpreter(self, locals=namespace)
 
-
-class ExecutingTerminalRealm(manhole_ssh.TerminalRealm):
-    """
-    """
-    sessionFactory = ExecutingTerminalSession
-    transportFactory = base.TerminalSessionTransport
-
-    def __init__(self, namespace):
-        self.sessionFactory.namespace = namespace
+    def updateNamespace(self, namespace={}):
+        self.interpreter.updateNamespace(namespace)
+        self.commandAPI.setNamespace(self.namespace)
+        self.commandAPI.setTerminal(self.terminal)
+        self.commandAPI.setAppData()
