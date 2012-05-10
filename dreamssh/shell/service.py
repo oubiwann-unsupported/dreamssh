@@ -11,7 +11,8 @@ def portalFactory(interpreterType, namespace):
         from dreamssh.shell import pythonshell
         realm = pythonshell.PythonTerminalRealm(namespace)
     elif interpreterType == const.ECHO:
-        pass
+        from dreamssh.shell import echoshell
+        realm = echoshell.EchoTerminalRealm(namespace)
     return portal.Portal(realm)
 
 

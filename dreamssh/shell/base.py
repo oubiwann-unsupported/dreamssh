@@ -38,18 +38,6 @@ class Interpreter(object):
         raise NotImplementedError()
 
 
-class EchoInterpreter(Interpreter):
-    """
-    A simple interpreter that demonstrate where one can plug in any
-    command-parsing shell.
-    """
-    def runsource(self, input, filename):
-        self.write("input = %s, filename = %s" % (input, filename))
-
-    def updateNamespace(self, namespace={}):
-        pass
-
-
 class MOTDColoredManhole(manhole.ColoredManhole):
     """
     """
