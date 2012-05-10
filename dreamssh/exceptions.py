@@ -17,3 +17,14 @@ class MissingSSHServerKeysError(Error):
 class IllegalAPICommand(Error):
     """
     """
+
+
+class UnsupportedInterpreterType(Error):
+    """
+    The interpreter type specified is not supported.
+    """
+
+
+class UnsupportedSubsystemError(Error):
+    """
+    """
