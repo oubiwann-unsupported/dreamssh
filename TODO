@@ -8,6 +8,8 @@ Bugs
   top
 * EchoInterpreter is not working right now, when it's swapped for
   DreamSSHInterpreter
+* Sometimes, when executing the 'ls' command, the '_' blows up the listing,
+  depending upon what the last command was
 
 
 Tasks
@@ -16,8 +18,6 @@ Tasks
 * Update README on basic usage
 
 * Split out SSH Server code into a separate project?
-  * makebe call it DreamShell?
-    * nope :-) DreamSSH
   * make prakaha-bot use it
   * make inversum use it
 
