@@ -36,8 +36,6 @@ ssh.banner = """:
 : You have logged into a DreamSSH Server.
 : {{HELP}}
 :
-: Type 'ls()' or 'dir()' to see the objects in the current namespace.
-:
 : Enjoy!
 :
 """

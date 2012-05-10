@@ -74,9 +74,18 @@ class CommandAPI(object):
         self.terminal.loseConnection()
 
 
+class PythonSessionTransport(base.TerminalSessionTransport):
+
+    def getHelpHint(self):
+        return ("Type 'ls()' or 'dir()' to see the objects in the "
+                "current namespace.")
+
+
 class PythonTerminalSession(base.ExecutingTerminalSession):
     """
     """
+    transportFactory = PythonSessionTransport
+
     def _processShellCommand(self, cmd, namespace):
         try:
             eval(cmd, namespace)
@@ -90,6 +99,7 @@ class PythonTerminalRealm(base.ExecutingTerminalRealm):
     """
     """
     sessionFactory = PythonTerminalSession
+    transportFactory = PythonSessionTransport
 
     def __init__(self, namespace):
         base.ExecutingTerminalRealm.__init__(self, namespace)

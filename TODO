@@ -19,11 +19,8 @@ Tasks
   * make prakaha-bot use it
   * make inversum use it
 
-* Make the interpreter choice a plugin option (command line parameter)
-  * substitute help text appropriate for the interpreter into the banner
-
 * Maybe move commandAPI from shell.base.MOTDColoredManhole to
-  DreamSSHInterpreter
+  DreamSSHInterpreter?
 
 * Add support for dynamic prompts
 

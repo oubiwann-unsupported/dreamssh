@@ -77,8 +77,12 @@ class TerminalSessionTransport(manhole_ssh.TerminalSessionTransport):
 
     def writeMOTD(self):
         termProto = self.chainedProtocol.terminalProtocol
-        termProto.terminal.write("\r\n" + config.ssh.banner + "\r\n")
+        banner = config.ssh.banner.replace("{{HELP}}", self.getHelpHint())
+        termProto.terminal.write("\r\n" + banner + "\r\n")
         termProto.terminal.write(termProto.ps[termProto.pn])
+
+    def getHelpHint(self):
+        raise NotImplementedError()
 
 
 class TerminalSession(manhole_ssh.TerminalSession):

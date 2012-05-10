@@ -10,9 +10,17 @@ from dreamssh import exceptions
 from dreamssh.shell import base
 
 
+class EchoSessionTransport(base.TerminalSessionTransport):
+
+    def getHelpHint(self):
+        return "This shell has no commands; it simply returns what you type."
+
+
 class EchoTerminalSession(base.ExecutingTerminalSession):
     """
     """
+    transportFactory = EchoSessionTransport
+
     def _processShellCommand(self, cmd, namespace):
         pass
 
@@ -21,6 +29,7 @@ class EchoTerminalRealm(base.ExecutingTerminalRealm):
     """
     """
     sessionFactory = EchoTerminalSession
+    transportFactory = EchoSessionTransport
 
     def __init__(self, namespace):
         base.ExecutingTerminalRealm.__init__(self, namespace)
