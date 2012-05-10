@@ -6,6 +6,7 @@ Bugs
 
 * When executing the "clear" shell command, the new screen has a newline at the
   top
+
 * Sometimes, when executing the 'ls' command, the '_' blows up the listing,
   depending upon what the last command was
 
@@ -15,9 +16,22 @@ Tasks
 
 * Update README on basic usage
 
+* Make this puppy installable
+  * add a setup.py
+
 * Split out SSH Server code into a separate project?
   * make prakaha-bot use it
   * make inversum use it
+
+* Add support for shared sessions
+  * we want to be able to provide a shell where everyone that logs in sees what
+    everyone else is doing
+  * this can be prototyped in the sandbox
+  * this should be as easy as setting up a singleton session...
+
+* Update SSH server to accept keys from non-~/.ssh dirs
+  * store keys in configured dir
+  * maaybe subdirs, divided by user?
 
 * Maybe move commandAPI from shell.base.MOTDColoredManhole to
   DreamSSHInterpreter?
@@ -27,11 +41,7 @@ Tasks
 * Add support for a status bar on the screen somewhere
 
 * Remove os and sys calls that aren't safe
-  * maybe follow Google App Engine's lead on this one
-
-* Update SSH server to accept keys from non-~/.ssh dirs
-  * store keys in configured dir
-  * maaybe subdirs, divided by user?
+  * maybe follow Google App Engine's lead on this one?
 
 * Add generic support for roles
   * provide a mechanism whereby programmers can create roles, and
@@ -48,9 +58,3 @@ Tasks
   * if not anonymous, do a full login
   * provide for the ability to define what the anonymous user name is
     * make the default anonymous user "signup"
-
-* Add support for shared sessions
-  * we want to be able to provide a shell where everyone that logs in sees what
-    everyone else is doing
-  * this can be prototyped in the sandbox
-  * this should be as easy as setting up a singleton session...
