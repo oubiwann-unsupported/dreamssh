@@ -37,7 +37,6 @@ class Options(usage.Options):
     def parseOptions(self, options):
         usage.Options.parseOptions(self, options)
         # check options
-        print options
         interpreterType = self.get(const.INTERPRETER)
         if interpreterType and interpreterType not in self.legalInterpreters:
             raise exceptions.UnsupportedInterpreterType()
