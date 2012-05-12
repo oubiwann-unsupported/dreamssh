@@ -24,7 +24,7 @@ Tasks
 
 * Update SSH server to accept keys from non-~/.ssh dirs
   * store keys in configured dir
-  * maaybe subdirs, divided by user?
+  * maybe subdirs, divided by user?
 
 * Maybe move commandAPI from shell.base.MOTDColoredManhole to
   DreamSSHInterpreter?
