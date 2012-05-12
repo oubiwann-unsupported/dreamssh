@@ -10,10 +10,13 @@ from dreamssh import exceptions
 from dreamssh.shell import base
 
 
+BANNER_HELP = "This shell has no commands; it simply returns what you type."
+
+
 class EchoSessionTransport(base.TerminalSessionTransport):
 
     def getHelpHint(self):
-        return "This shell has no commands; it simply returns what you type."
+        return BANNER_HELP
 
 
 class EchoTerminalSession(base.ExecutingTerminalSession):
