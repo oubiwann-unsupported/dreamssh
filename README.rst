@@ -33,20 +33,36 @@ the following::
 Once the dependencies are installed, you'll need to generate the keys for use
 by the server::
 
-  $ dreamssh-keygen
+  $ twistd dreamssh keygen
 
 Running
 -------
 
-If you've ``clone`` d the github repo, all you need to do to start up a
-DreamSSH server is this::
+Once you have DreamSSH installed, interacting with the server is as easy as the
+following::
 
+  $ twistd dreamssh
+
+That will run in daemonized mode. If you'd like to run it in the foreground and
+watch the log output to stdout, just do::
+
+  $ twistd dreamssh run
+
+To log into the shell, use this command::
+
+  $ twistd dreamssh shell
+
+If you'd like to try out the alternate "toy" shell::
+
+  $ twistd dreamssh --interpreter=echo
+
+For those who have a ``clone`` of the git repo, there are development
+convenience make targets::
+
+  $ make keygen
   $ make daemon
+  $ make run
   $ make shell
-
-That will start up an SSH server and then log you into it, using your keys.
-
-Once you have DreamSSH installed, 
 
 Configuring
 -----------
