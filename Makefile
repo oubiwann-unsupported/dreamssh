@@ -5,6 +5,11 @@ PKG_NAME := $(PROJ)
 TMP_FILE ?= /tmp/MSG
 VIRT_DIR ?= .venv
 
+keygen: KEY_DIR ?= $(shell python -c "from dreamssh import config;print config.ssh.keydir")
+keygen:
+	mkdir -p $(KEY_DIR)
+	ckeygen -t rsa -f $(KEY_DIR)/id_rsa
+
 run:
 	twistd -n dreamssh
 
@@ -43,11 +48,11 @@ log-changes:
 	git log --format='%ad %n* %B %N%n' --date=short
 
 clean:
-	sudo rm -rf dist/ MANIFEST *.egg-info
-	rm -rf _trial_temp/ MANIFEST CHECK_THIS_BEFORE_UPLOAD.txt
-	find ./ -name "*~" -exec rm {} \;
-	find ./ -name "*.py[co]" -exec rm {} \;
-	find . -name "*.sw[op]" -exec rm {} \;
+	sudo rm -rfv dist/ MANIFEST *.egg-info
+	rm -rfv _trial_temp/ MANIFEST CHECK_THIS_BEFORE_UPLOAD.txt twistd.log
+	find ./ -name "*~" -exec rm -v {} \;
+	sudo find ./ -name "*.py[co]" -exec rm -v {} \;
+	find . -name "*.sw[op]" -exec rm -v {} \;
 
 push:
 	git push --all git@$(GITHUB_REPO)
@@ -71,7 +76,7 @@ stat:
 	@echo "### Git branches ###"
 	@echo
 	@git branch
-	@echo 
+	@echo
 
 status: stat
 .PHONY: status
@@ -80,10 +85,6 @@ todo:
 	git grep -n -i -2 XXX
 	git grep -n -i -2 TODO
 .PHONY: todo
-
-build:
-	python setup.py build
-	python setup.py sdist
 
 build-docs:
 	cd docs/sphinx; make html
@@ -126,6 +127,16 @@ clean-virt: clean
 
 virtual-build-clean: clean-virt build virtual-build
 .PHONY: virtual-build-clean
+
+build:
+	python setup.py build
+	python setup.py sdist
+
+install:
+	sudo pip install .
+
+uninstall:
+	sudo pip uninstall dreamssh
 
 register: clean
 	python setup.py register
