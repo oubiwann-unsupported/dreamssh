@@ -5,10 +5,8 @@ PKG_NAME := $(PROJ)
 TMP_FILE ?= /tmp/MSG
 VIRT_DIR ?= .venv
 
-keygen: KEY_DIR ?= $(shell python -c "from dreamssh import config;print config.ssh.keydir")
 keygen:
-	mkdir -p $(KEY_DIR)
-	ckeygen -t rsa -f $(KEY_DIR)/id_rsa
+	@python -c "from dreamssh import scripts;scripts.KeyGen()"
 
 run:
 	twistd -n dreamssh
@@ -17,10 +15,10 @@ daemon:
 	twistd dreamssh
 
 shell:
-	-@ssh -p 2222 127.0.0.1
+	@python -c "from dreamssh import scripts;scripts.ConnectToShell()"
 
 stop:
-	kill `cat twistd.pid`
+	@python -c "from dreamssh import scripts;scripts.StopDaemon()"
 
 run-test:
 	make daemon && make shell && make stop
