@@ -58,6 +58,10 @@ If you'd like to try out the alternate "toy" shell::
 
     $ twistd dreamssh --interpreter=echo
 
+When you're ready to shut it down::
+
+    $ twistd dreamssh stop
+
 For those who have a ``clone`` of the git repo, there are development
 convenience make targets::
 
@@ -65,6 +69,7 @@ convenience make targets::
     $ make daemon
     $ make run
     $ make shell
+    $ make stop
 
 
 Using
@@ -121,6 +126,8 @@ Then executing any command will looks something like this::
     :>> execute any command
     input = execute any command, filename = <console>
 
+The echo shell is intended to provide insight or a starting point for
+developers who want to implement their own shell their users can ssh into.
 
 Configuring
 -----------
