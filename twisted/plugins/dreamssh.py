@@ -1,7 +1,5 @@
 from twisted.application.service import ServiceMaker
 
-#from dreamssh import service
-
 
 DreamSSHService = ServiceMaker(
     "DreamSSH Server",
