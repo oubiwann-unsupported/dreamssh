@@ -50,6 +50,8 @@ class CommandAPI(object):
         """
         width = max([len(x) for x in self.namespace.keys()])
         for key, value in sorted(self.namespace.items()):
+            if key == "_":
+                continue
             info = ""
             if (isinstance(value, dict) or 
                 isinstance(value, list) or key == "services"):
