@@ -1,4 +1,4 @@
-display_name = "dreamssh"
+display_name = "DreamSSH"
 library_name = "dreamssh"
 version = "0.1"
 author = "Duncan McGreggor"

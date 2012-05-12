@@ -49,5 +49,9 @@ class StopDaemon(Script):
     """
     def run(self):
         print "Stopping DreamSSH Server ..."
-        pid = open("twistd.pid").read()
-        subprocess.call(["kill", pid])
+        if not os.path.exists(config.ssh.pidfile):
+            print "Could not find the server's PID file ..."
+            print "Aborting."
+        else:
+            pid = open(config.ssh.pidfile).read()
+            subprocess.call(["kill", pid])

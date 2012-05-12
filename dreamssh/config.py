@@ -18,6 +18,7 @@ main.config.userfile = "%s/%s" % (main.config.userdir, main.config.localfile)
 ssh = Config()
 ssh.servicename = meta.description
 ssh.port = 2222
+ssh.pidfile = "twistd.pid"
 ssh.username = "root"
 ssh.keydir = os.path.join(main.config.userdir, "ssh")
 ssh.privkey = "id_rsa"
