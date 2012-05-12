@@ -2,7 +2,8 @@ from twisted.cred import portal
 from twisted.conch import manhole_ssh
 from twisted.conch.checkers import SSHPublicKeyDatabase
 
-from dreamssh import const, util
+from dreamssh import const
+from dreamssh.util import ssh as util
 from dreamssh.shell import base
 
 
