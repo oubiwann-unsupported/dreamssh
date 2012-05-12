@@ -1,6 +1,6 @@
 display_name = "DreamSSH"
 library_name = "dreamssh"
-version = "0.1"
+version = "0.2-dev"
 author = "Duncan McGreggor"
 author_email = "dev-community@dreamhost.com"
 license = "MIT"
