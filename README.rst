@@ -38,7 +38,7 @@ by the server::
 Running
 -------
 
-If you've ``clone``d the github repo, all you need to do to start up a
+If you've ``clone`` d the github repo, all you need to do to start up a
 DreamSSH server is this::
 
   $ make daemon
