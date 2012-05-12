@@ -1,8 +1,21 @@
+import sys
+
 from twisted.application import service, internet
 from twisted.python import usage
+from twisted.scripts import twistd
 
-from dreamssh import config, const, exceptions, meta
+from dreamssh import config, const, exceptions, meta, scripts
 from dreamssh.shell.service import getShellFactory
+
+
+
+
+class SubCommandOptions(usage.Options):
+    """
+    A base class for subcommand options.
+
+    Can also be used directly for subcommands that don't have options.
+    """
 
 
 class Options(usage.Options):
@@ -14,13 +27,33 @@ class Options(usage.Options):
          ("The interpreter to use; valid options incude: "
           ",".join(legalInterpreters))]
          ]
+    subCommands = [
+        ["keygen", None, SubCommandOptions, 
+         "Generate ssh keys for the server"],
+        ["shell", None, SubCommandOptions, "Login to the server"],
+        ["stop", None, SubCommandOptions, "Stop the server"],
+        ]
+
+    def parseOptions(self, options):
+        usage.Options.parseOptions(self, options)
+        # check options
+        print options
+        interpreterType = self.get(const.INTERPRETER)
+        if interpreterType and interpreterType not in self.legalInterpreters:
+            raise exceptions.UnsupportedInterpreterType()
+        if self.subCommand == const.KEYGEN:
+            scripts.KeyGen()
+            sys.exit(0)
+        elif self.subCommand == const.SHELL:
+            scripts.ConnectToShell()
+            sys.exit(0)
+        elif self.subCommand == const.STOP:
+            scripts.StopDaemon()
+            sys.exit(0)
 
 
 def makeService(options):
-    # check options
-    interpreterType = options.get("interpreter")
-    if interpreterType and interpreterType not in Options.legalInterpreters:
-        raise exceptions.UnsupportedInterpreterType()
+    interpreterType = options.get(const.INTERPRETER)
 
     # primary setup
     application = service.Application(meta.description)
