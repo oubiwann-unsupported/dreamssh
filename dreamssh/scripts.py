@@ -55,3 +55,4 @@ class StopDaemon(Script):
         else:
             pid = open(config.ssh.pidfile).read()
             subprocess.call(["kill", pid])
+            print "Stopped."

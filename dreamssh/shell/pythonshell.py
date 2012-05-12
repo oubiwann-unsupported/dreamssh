@@ -10,6 +10,10 @@ from dreamssh import exceptions
 from dreamssh.shell import base
 
 
+BANNER_HELP = ("Type 'ls()' or 'dir()' to see the objects in the "
+               "current namespace.")
+
+
 class CommandAPI(object):
 
     def __init__(self):
@@ -65,7 +69,7 @@ class CommandAPI(object):
         """
         Display the login banner and associated help or info.
         """
-        print config.ssh.banner
+        print base.renderBanner(help=BANNER_HELP)
 
     def clear(self):
         self.terminal.reset()
@@ -77,8 +81,7 @@ class CommandAPI(object):
 class PythonSessionTransport(base.TerminalSessionTransport):
 
     def getHelpHint(self):
-        return ("Type 'ls()' or 'dir()' to see the objects in the "
-                "current namespace.")
+        return BANNER_HELP
 
 
 class PythonTerminalSession(base.ExecutingTerminalSession):

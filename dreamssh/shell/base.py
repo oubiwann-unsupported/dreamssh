@@ -8,6 +8,10 @@ from twisted.python import log
 from dreamssh import config
 
 
+def renderBanner(help=""):
+    return config.ssh.banner.replace("{{HELP}}", help)
+
+
 class Interpreter(object):
     """
     A base class for interpreters.
@@ -77,7 +81,7 @@ class TerminalSessionTransport(manhole_ssh.TerminalSessionTransport):
 
     def writeMOTD(self):
         termProto = self.chainedProtocol.terminalProtocol
-        banner = config.ssh.banner.replace("{{HELP}}", self.getHelpHint())
+        banner = renderBanner(help=self.getHelpHint())
         termProto.terminal.write("\r\n" + banner + "\r\n")
         termProto.terminal.write(termProto.ps[termProto.pn])
 
