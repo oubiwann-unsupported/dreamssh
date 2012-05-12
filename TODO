@@ -14,13 +14,9 @@ Bugs
 Tasks
 -----
 
-* Update README on basic usage
-
-* Make this puppy installable
-  * add a setup.py
-
 * Split out SSH Server code into a separate project?
   * make prakaha-bot use it
+  * make dreammud use it
   * make inversum use it
 
 * Add support for shared sessions
