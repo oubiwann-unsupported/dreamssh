@@ -43,12 +43,11 @@ log-changes:
 	git log --format='%ad %n* %B %N%n' --date=short
 
 clean:
+	sudo rm -rf dist/ MANIFEST *.egg-info
+	rm -rf _trial_temp/ MANIFEST CHECK_THIS_BEFORE_UPLOAD.txt
 	find ./ -name "*~" -exec rm {} \;
-	find ./ -name "*.pyc" -exec rm {} \;
-	find ./ -name "*.pyo" -exec rm {} \;
+	find ./ -name "*.py[co]" -exec rm {} \;
 	find . -name "*.sw[op]" -exec rm {} \;
-	rm -rf _trial_temp/ build/ dist/ MANIFEST \
-		CHECK_THIS_BEFORE_UPLOAD.txt *.egg-info
 
 push:
 	git push --all git@$(GITHUB_REPO)
@@ -128,8 +127,8 @@ clean-virt: clean
 virtual-build-clean: clean-virt build virtual-build
 .PHONY: virtual-build-clean
 
-register:
+register: clean
 	python setup.py register
 
-upload: check
+upload: clean check
 	python setup.py sdist upload --show-response
