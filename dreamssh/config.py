@@ -47,6 +47,7 @@ def buildDefaults():
     config.add_section("SSH")
     config.set("SSH", "servicename", ssh.servicename)
     config.set("SSH", "port", str(ssh.port))
+    config.set("SSH", "pidfile", ssh.pidfile)
     config.set("SSH", "username", ssh.username)
     config.set("SSH", "keydir", ssh.keydir)
     config.set("SSH", "privkey", ssh.privkey)
@@ -77,6 +78,7 @@ def updateConfig():
     # Internal SSH Server
     ssh.servicename = config.get("SSH", "servicename")
     ssh.port = int(config.get("SSH", "port"))
+    ssh.pidfile = config.get("SSH", "pidfile")
     ssh.username = str(config.get("SSH", "username"))
     ssh.keydir = config.get("SSH", "keydir")
     ssh.privkey = config.get("SSH", "privkey")
