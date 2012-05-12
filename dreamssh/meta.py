@@ -6,7 +6,9 @@ author_email = "dev-community@dreamhost.com"
 license = "BSD"
 url = "http://github.com/dreamhost/dreamssh"
 description = "DreamSSH Server"
-long_description = "A highly flexible pure-Python, Twisted-based SSH Server"
-install_requires = [
+long_description = "A highly configurable pure-Python, Twisted-based SSH Server"
+requires = [
+    "PyCrypto",
+    "pyasn1",
     "twisted",
     ]
