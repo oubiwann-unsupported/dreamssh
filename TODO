@@ -7,6 +7,12 @@ Bugs
 * When executing the "clear" shell command, the new screen has a newline at the
   top
 
+* Configuration is a bit of a mess
+  * other projects that use DreamSSH are going to get dreamssh.config
+  * dreamssh.config references are peppered throughout the code
+  * we should use a global registry/interface lookup to get the config
+    object/module
+
 
 Tasks
 -----
