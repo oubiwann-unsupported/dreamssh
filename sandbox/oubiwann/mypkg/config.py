@@ -21,11 +21,11 @@ config.py
 """
 from zope.interface import implements
 
-from mypkg.interfaces import IMyConfig
+from mypkg.interfaces import IConfig
 
 
 class MyConfig(object):
-    implements(IMyConfig)
+    implements(IConfig)
     def get_attr(self):
         return "a my attr datum"
 

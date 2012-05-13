@@ -9,6 +9,15 @@ class IMyApp(Interface):
         Get the config object.
         """
 
+
+class IConfig(Interface):
+    """
+    """
+    def get_attr(self):
+        """
+        """
+
+
 class IMyConfig(Interface):
     """
     """

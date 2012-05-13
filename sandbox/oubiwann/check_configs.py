@@ -6,12 +6,29 @@ different config.
 
 It seems the best way to get what I want will be a global registry.
 """
+from zope.component import getGlobalSiteManager, getUtility
 from zope.interface import Interface, implements
 
 from twisted.python import components
 
 from mypkg.interfaces import IMyApp, IMyConfig
 from mypkg.util import registry
+
+
+def check_config_base_3():
+    from mypkg import config, interfaces, usesconfig
+    gsm = getGlobalSiteManager()
+    gsm.registerUtility(config, interfaces.IConfig)
+    usesconfig.do_a_config_thing_3()
+
+
+def check_config_inherited_3():
+    from mypkg import interfaces, usesconfig
+    from otherpkg import config
+
+    gsm = getGlobalSiteManager()
+    gsm.registerUtility(config, interfaces.IConfig)
+    usesconfig.do_a_config_thing_3()
 
 
 def check_config_base_2():
@@ -94,5 +111,5 @@ def check_app_inherited():
         AdaptRunningAppToMyApp, OtherApp, IMyApp)
 
 if __name__ == "__main__":
-    check_config_base_2()
-    check_config_inherited_2()
+    check_config_base_3()
+    check_config_inherited_3()

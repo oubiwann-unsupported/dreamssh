@@ -1,6 +1,9 @@
-from mypkg.interfaces import IMyConfig
+from zope.component import getUtility
+
+from mypkg.interfaces import IConfig, IMyConfig
 from mypkg.config import config
 from mypkg.util import registry
+
 
 def do_an_app_thing():
     # get config
@@ -16,8 +19,15 @@ def do_a_config_thing():
 def do_a_config_thing_2():
     return registry.get("config")
 
-def do_a_config_thing_2():
-    return registry.get("config")
+
+def do_a_config_thing_3():
+    config = getUtility(IConfig)
+    print config.config.name
+    print config.config.a
+    print config.config.c.d
+    print config.config.h
+
+
 """
 ---------------------------------
 Thought 1:
