@@ -10,5 +10,6 @@ long_description = "A highly configurable pure-Python, Twisted-based SSH Server"
 requires = [
     "PyCrypto",
     "pyasn1",
+    "zope.component",
     "twisted",
     ]

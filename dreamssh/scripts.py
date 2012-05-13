@@ -3,7 +3,10 @@ import subprocess
 
 from twisted.conch.scripts import ckeygen
 
-from dreamssh import config
+from dreamssh import util
+
+
+config = util.common.getConfig()
 
 
 class Script(object):

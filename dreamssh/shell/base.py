@@ -5,7 +5,10 @@ import sys
 from twisted.conch import manhole, manhole_ssh
 from twisted.python import log
 
-from dreamssh import config
+from dreamssh import util
+
+
+config = util.common.getConfig()
 
 
 def renderBanner(help=""):

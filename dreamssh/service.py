@@ -4,7 +4,9 @@ from twisted.application import service, internet
 from twisted.python import usage
 from twisted.scripts import twistd
 
-from dreamssh import config, const, exceptions, meta, scripts
+from zope.component import getGlobalSiteManager
+
+from dreamssh import config, const, exceptions, interfaces, meta, scripts
 from dreamssh.shell.service import getShellFactory
 
 
@@ -52,6 +54,9 @@ class Options(usage.Options):
 
 
 def makeService(options):
+    gsm = getGlobalSiteManager()
+    gsm.registerUtility(config, interfaces.IConfig)
+
     interpreterType = options.get(const.INTERPRETER)
 
     # primary setup
