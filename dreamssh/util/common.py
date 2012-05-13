@@ -14,7 +14,7 @@ def registerConfig(config):
 
     The way to use this is to register your config in the top-level __init__ of
     your project.
-    
+
     This will be importing config, interfaces, and util.
     """
     try:
