@@ -4,8 +4,8 @@ DreamSSH Server
 Features
 --------
 
-*What does this give me, over and above the default ``manhole`` capabilities of
-``twistd``?*
+*What does this give me, over and above the default* ``manhole`` *capabilities
+of* ``twistd``?
 
 DreamSSH provides, out of the box, the following:
 
@@ -32,7 +32,7 @@ And there's more coming:
 
 * a status bar (maybe)
 
-* automated sign-up functionality 
+* automated sign-up functionality
 
 
 Install
@@ -114,7 +114,7 @@ When you log into the Python shell::
 
 You are greeted with something that looks like this::
 
-    :>> 
+    :>>
     :
     : Welcome to
     :
