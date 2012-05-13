@@ -100,21 +100,6 @@ class PythonTerminalSession(base.ExecutingTerminalSession):
             raise exceptions.IllegalAPICommand(msg)
 
 
-class PythonTerminalRealm(base.ExecutingTerminalRealm):
-    """
-    """
-    sessionFactory = PythonTerminalSession
-    transportFactory = PythonSessionTransport
-
-    def __init__(self, namespace):
-        base.ExecutingTerminalRealm.__init__(self, namespace)
-
-        def getManhole(serverProtocol):
-            return PythonManhole(CommandAPI(), namespace)
-
-        self.chainedProtocolFactory.protocolFactory = getManhole
-
-
 class PythonInterpreter(ManholeInterpreter):
     """
     """
@@ -126,7 +111,6 @@ class PythonInterpreter(ManholeInterpreter):
         namespace.update({
             "os": os,
             "sys": sys,
-            "config": config,
             "pprint": pprint,
             "app": self.handler.commandAPI.getAppData,
             "banner": self.handler.commandAPI.banner,
@@ -136,6 +120,8 @@ class PythonInterpreter(ManholeInterpreter):
             "quit": self.handler.commandAPI.quit,
             "exit": self.handler.commandAPI.quit,
             })
+        if "config" not in namespace.keys():
+            namespace["config"] = config
         self.handler.namespace.update(namespace)
 
 
@@ -154,3 +140,20 @@ class PythonManhole(base.MOTDColoredManhole):
         self.commandAPI.setNamespace(self.namespace)
         self.commandAPI.setTerminal(self.terminal)
         self.commandAPI.setAppData()
+
+
+class PythonTerminalRealm(base.ExecutingTerminalRealm):
+    """
+    """
+    sessionFactory = PythonTerminalSession
+    transportFactory = PythonSessionTransport
+
+    def __init__(self, namespace, apiClass=None):
+        base.ExecutingTerminalRealm.__init__(self, namespace)
+        if not apiClass:
+            apiClass = CommandAPI
+
+        def getManhole(serverProtocol):
+            return PythonManhole(apiClass(), namespace)
+
+        self.chainedProtocolFactory.protocolFactory = getManhole
