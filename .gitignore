@@ -29,3 +29,6 @@ pip-log.txt
 twistd.*
 dropin.cache
 _trial_temp
+
+# Virtual Environment
+.venv*
