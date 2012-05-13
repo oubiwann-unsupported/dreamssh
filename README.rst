@@ -12,7 +12,7 @@ DreamSSH provides, out of the box, the following:
 * configurable banner/MOTD
 
 * the ability to templatize your banner (e.g., changing the "help" based on
-   interpreter type)
+  interpreter type)
 
 * it provides an easy means of generating keys (and then uses them
   automatically)
