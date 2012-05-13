@@ -6,7 +6,7 @@ TMP_FILE ?= /tmp/MSG
 VIRT_DIR ?= .venv
 
 keygen:
-	@python -c "from dreamssh import scripts;scripts.KeyGen()"
+	@python -c "from dreamssh import server;from dreamssh.apps import scripts;scripts.KeyGen()"
 
 run:
 	twistd -n dreamssh
@@ -15,10 +15,10 @@ daemon:
 	twistd dreamssh
 
 shell:
-	@python -c "from dreamssh import scripts;scripts.ConnectToShell()"
+	@python -c "from dreamssh import server;from dreamssh.apps import scripts;scripts.ConnectToShell()"
 
 stop:
-	@python -c "from dreamssh import scripts;scripts.StopDaemon()"
+	@python -c "from dreamssh import server;from dreamssh.apps import scripts;scripts.StopDaemon()"
 
 run-test:
 	make daemon && make shell && make stop
@@ -46,8 +46,8 @@ log-changes:
 	git log --format='%ad %n* %B %N%n' --date=short
 
 clean:
-	sudo rm -rfv dist/ MANIFEST *.egg-info
-	rm -rfv _trial_temp/ MANIFEST CHECK_THIS_BEFORE_UPLOAD.txt twistd.log
+	sudo rm -rfv dist/ build/ MANIFEST *.egg-info
+	rm -rfv _trial_temp/ CHECK_THIS_BEFORE_UPLOAD.txt twistd.log
 	find ./ -name "*~" -exec rm -v {} \;
 	sudo find ./ -name "*.py[co]" -exec rm -v {} \;
 	find . -name "*.sw[op]" -exec rm -v {} \;

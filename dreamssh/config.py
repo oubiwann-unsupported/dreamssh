@@ -3,7 +3,8 @@ import os
 
 from zope.interface import moduleProvides
 
-from dreamssh import interfaces, meta
+from dreamssh import meta
+from dreamssh.apps import interfaces
 
 
 moduleProvides(interfaces.IConfig)

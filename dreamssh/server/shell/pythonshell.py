@@ -5,12 +5,11 @@ import sys
 from twisted.conch import manhole_ssh
 from twisted.conch.manhole import ManholeInterpreter
 
-from dreamssh import exceptions
-from dreamssh.shell import base
-from dreamssh.util import common
+from dreamssh.apps import exceptions, registry
+from dreamssh.server.shell import base
 
 
-config = common.getConfig()
+config = registry.getConfig()
 
 
 BANNER_HELP = ("Type 'ls()' or 'dir()' to see the objects in the "

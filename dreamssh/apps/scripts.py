@@ -3,10 +3,10 @@ import subprocess
 
 from twisted.conch.scripts import ckeygen
 
-from dreamssh.util import common
+from dreamssh.apps import registry
 
 
-config = common.getConfig()
+config = registry.getConfig()
 
 
 class Script(object):

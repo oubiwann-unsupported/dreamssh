@@ -6,15 +6,9 @@ from twisted.scripts import twistd
 
 from zope.component import getGlobalSiteManager
 
-from dreamssh import config
-from dreamssh.util import common
-
-
-#common.registerConfig(config)
-
-
-from dreamssh import const, exceptions, meta, scripts
-from dreamssh.shell.service import getShellFactory
+from dreamssh import config, meta
+from dreamssh.apps import const, exceptions, scripts
+from dreamssh.server.shell.service import getShellFactory
 
 
 class SubCommandOptions(usage.Options):
