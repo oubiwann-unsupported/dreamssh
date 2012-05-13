@@ -1,7 +1,12 @@
 from ConfigParser import SafeConfigParser
 import os
 
-from dreamssh import meta
+from zope.interface import moduleProvides
+
+from dreamssh import interfaces, meta
+
+
+moduleProvides(interfaces.IConfig)
 
 
 class Config(object): pass

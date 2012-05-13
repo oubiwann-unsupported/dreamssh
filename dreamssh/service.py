@@ -6,10 +6,15 @@ from twisted.scripts import twistd
 
 from zope.component import getGlobalSiteManager
 
-from dreamssh import config, const, exceptions, interfaces, meta, scripts
+from dreamssh import config
+from dreamssh.util import common
+
+
+#common.registerConfig(config)
+
+
+from dreamssh import const, exceptions, meta, scripts
 from dreamssh.shell.service import getShellFactory
-
-
 
 
 class SubCommandOptions(usage.Options):
@@ -54,9 +59,8 @@ class Options(usage.Options):
 
 
 def makeService(options):
-    gsm = getGlobalSiteManager()
-    gsm.registerUtility(config, interfaces.IConfig)
-
+    """
+    """
     interpreterType = options.get(const.INTERPRETER)
 
     # primary setup

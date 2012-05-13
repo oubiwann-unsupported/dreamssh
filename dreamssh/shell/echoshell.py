@@ -5,11 +5,12 @@ import sys
 from twisted.conch import manhole_ssh
 from twisted.conch.manhole import ManholeInterpreter
 
-from dreamssh import exceptions, util
+from dreamssh import exceptions
 from dreamssh.shell import base
+from dreamssh.util import common
 
 
-config = util.common.getConfig()
+config = common.getConfig()
 
 
 BANNER_HELP = "This shell has no commands; it simply returns what you type."
