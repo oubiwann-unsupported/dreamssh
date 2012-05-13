@@ -11,6 +11,9 @@ Bugs
 Tasks
 -----
 
+* Allow scripts to take configuration parameters in their constructors
+  * this will emable the re-use of DreamSSH scripts by other software
+
 * Split out SSH Server code into a separate project?
   * make prakaha-bot use it
   * make dreammud use it
