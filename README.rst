@@ -9,19 +9,31 @@ Features
 
 DreamSSH provides, out of the box, the following:
 
- * configurable banner/MOTD
+* configurable banner/MOTD
 
- * the ability to templatize your banner (e.g., changing the "help" based on
+* the ability to templatize your banner (e.g., changing the "help" based on
    interpreter type)
 
- * it provides an easy means of generating keys (and then uses them
-   automatically)
+* it provides an easy means of generating keys (and then uses them
+  automatically)
 
- * by default, uses the local filesystems SSH keys for authenticating users
+* by default, uses the local filesystems SSH keys for authenticating users
 
- * provides an easy mechanism for creating your own shell
+* provides an easy mechanism for creating your own shell
 
-And there's more coming ...!
+
+And there's more coming:
+
+* shared sessions (multiple uses in a single space)
+
+* multiple filesystem locations for user ssh keys
+
+* user roles
+
+* a status bar (maybe)
+
+* automated sign-up functionality 
+
 
 Install
 -------
