@@ -8,8 +8,8 @@ url = "http://github.com/dreamhost/dreamssh"
 description = "DreamSSH Server"
 long_description = "A highly configurable pure-Python, Twisted-based SSH Server"
 requires = [
+    "twisted",
     "PyCrypto",
     "pyasn1",
     "zope.component",
-    "twisted",
     ]

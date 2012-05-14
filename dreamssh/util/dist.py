@@ -1,4 +1,8 @@
 def refresh_plugin_cache():
     print "Refreshing Twisted plugin cache ..."
-    from twisted.plugin import IPlugin, getPlugins
-    list(getPlugins(IPlugin))
+    try:
+        from twisted.plugin import IPlugin, getPlugins
+        list(getPlugins(IPlugin))
+        print "Done."
+    except ImportError:
+        print "Twisted not installed."
