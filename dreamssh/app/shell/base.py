@@ -52,7 +52,6 @@ class MOTDColoredManhole(manhole.ColoredManhole):
 
     def connectionMade(self, *args, **kwargs):
         manhole.ColoredManhole.connectionMade(self, *args, **kwargs)
-        # XXX how can we make this dynamic, based on options passed to twistd?
         self.setInterpreter()
         self.updateNamespace()
 

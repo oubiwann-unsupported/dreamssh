@@ -12,7 +12,8 @@ config = registry.getConfig()
 
 
 BANNER_HELP = ("Type 'ls()' or 'dir()' to see the objects in the "
-               "current namespace.")
+               "current namespace.\nUse help(...) to get API docs "
+               "for available objects.")
 
 
 class CommandAPI(object):
@@ -129,12 +130,8 @@ class PythonInterpreter(ManholeInterpreter):
 class PythonManhole(base.MOTDColoredManhole):
     """
     """
-    def setInterpreter(self, klass=None, namespace={}):
-        if namespace:
-            self.updateNamespace(namespace)
-        else:
-            namespace = self.namespace
-        self.interpreter = PythonInterpreter(self, locals=namespace)
+    def setInterpreter(self):
+        self.interpreter = PythonInterpreter(self, locals=self.namespace)
 
     def updateNamespace(self, namespace={}):
         self.interpreter.updateNamespace(namespace)
@@ -148,6 +145,7 @@ class PythonTerminalRealm(base.ExecutingTerminalRealm):
     """
     sessionFactory = PythonTerminalSession
     transportFactory = PythonSessionTransport
+    manholeFactory = PythonManhole
 
     def __init__(self, namespace, apiClass=None):
         base.ExecutingTerminalRealm.__init__(self, namespace)
@@ -155,6 +153,6 @@ class PythonTerminalRealm(base.ExecutingTerminalRealm):
             apiClass = CommandAPI
 
         def getManhole(serverProtocol):
-            return PythonManhole(apiClass(), namespace)
+            return self.manholeFactory(apiClass(), namespace)
 
         self.chainedProtocolFactory.protocolFactory = getManhole
