@@ -6,7 +6,8 @@ author_email = "dev-community@dreamhost.com"
 license = "MIT"
 url = "http://github.com/dreamhost/dreamssh"
 description = "DreamSSH Server"
-long_description = "A highly configurable pure-Python, Twisted-based SSH Server"
+long_description = ("A highly configurable pure-Python, Twisted-based "
+                    "SSH Server")
 requires = [
     "twisted",
     "PyCrypto",

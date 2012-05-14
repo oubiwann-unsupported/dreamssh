@@ -3,7 +3,7 @@ import os
 from twisted.conch.ssh.keys import Key
 
 from dreamssh import config
-from dreamssh.apps import exceptions
+from dreamssh.sdk import exceptions
 
 
 def _getKey(path):

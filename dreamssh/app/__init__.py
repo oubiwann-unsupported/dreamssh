@@ -1,5 +1,5 @@
 from dreamssh import config
-from dreamssh.apps import registry
+from dreamssh.sdk import registry
 
 
 registry.registerConfig(config)

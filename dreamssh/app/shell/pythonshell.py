@@ -2,11 +2,10 @@ import os
 from pprint import pprint
 import sys
 
-from twisted.conch import manhole_ssh
 from twisted.conch.manhole import ManholeInterpreter
 
-from dreamssh.apps import exceptions, registry
-from dreamssh.server.shell import base
+from dreamssh.app.shell import base
+from dreamssh.sdk import exceptions, registry
 
 
 config = registry.getConfig()
@@ -55,7 +54,7 @@ class CommandAPI(object):
             if key == "_":
                 continue
             info = ""
-            if (isinstance(value, dict) or 
+            if (isinstance(value, dict) or
                 isinstance(value, list) or key == "services"):
                 info = "data"
             elif type(value).__name__ == "module":
@@ -106,7 +105,7 @@ class PythonInterpreter(ManholeInterpreter):
     """
     """
     # XXX namespace code needs to be better organized:
-    #   * should the CommandAPI be in this module? 
+    #   * should the CommandAPI be in this module?
     def updateNamespace(self, namespace={}):
         if not self.handler.commandAPI.appOrig:
             self.handler.commandAPI.appOrig = self.handler.namespace.get("app")

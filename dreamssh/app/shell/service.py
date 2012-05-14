@@ -2,17 +2,16 @@ from twisted.cred import portal
 from twisted.conch import manhole_ssh
 from twisted.conch.checkers import SSHPublicKeyDatabase
 
-from dreamssh.apps import const
-from dreamssh.server.shell import base
+from dreamssh.sdk import const
 from dreamssh.util import ssh as util
 
 
 def portalFactory(interpreterType, namespace):
     if interpreterType == const.PYTHON:
-        from dreamssh.server.shell import pythonshell
+        from dreamssh.app.shell import pythonshell
         realm = pythonshell.PythonTerminalRealm(namespace)
     elif interpreterType == const.ECHO:
-        from dreamssh.server.shell import echoshell
+        from dreamssh.app.shell import echoshell
         realm = echoshell.EchoTerminalRealm(namespace)
     return portal.Portal(realm)
 

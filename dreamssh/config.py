@@ -4,13 +4,14 @@ import os
 from zope.interface import moduleProvides
 
 from dreamssh import meta
-from dreamssh.apps import interfaces
+from dreamssh.sdk import interfaces
 
 
 moduleProvides(interfaces.IConfig)
 
 
-class Config(object): pass
+class Config(object):
+    pass
 
 
 # Main

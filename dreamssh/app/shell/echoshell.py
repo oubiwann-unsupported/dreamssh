@@ -1,12 +1,5 @@
-import os
-from pprint import pprint
-import sys
-
-from twisted.conch import manhole_ssh
-from twisted.conch.manhole import ManholeInterpreter
-
-from dreamssh.apps import exceptions, registry
-from dreamssh.server.shell import base
+from dreamssh.app.shell import base
+from dreamssh.sdk import registry
 
 
 config = registry.getConfig()

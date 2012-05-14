@@ -1,11 +1,7 @@
-import os
-from pprint import pprint
-import sys
-
 from twisted.conch import manhole, manhole_ssh
 from twisted.python import log
 
-from dreamssh.apps import registry
+from dreamssh.sdk import exceptions, registry
 
 
 config = registry.getConfig()
@@ -49,6 +45,7 @@ class MOTDColoredManhole(manhole.ColoredManhole):
     """
     """
     ps = (":>> ", "... ")
+
     def __init__(self, commandAPI, *args, **kwargs):
         manhole.ColoredManhole.__init__(self, *args, **kwargs)
         self.commandAPI = commandAPI

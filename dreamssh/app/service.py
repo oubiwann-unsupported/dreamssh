@@ -2,13 +2,10 @@ import sys
 
 from twisted.application import service, internet
 from twisted.python import usage
-from twisted.scripts import twistd
-
-from zope.component import getGlobalSiteManager
 
 from dreamssh import config, meta
-from dreamssh.apps import const, exceptions, scripts
-from dreamssh.server.shell.service import getShellFactory
+from dreamssh.app.shell.service import getShellFactory
+from dreamssh.sdk import const, exceptions, scripts
 
 
 class SubCommandOptions(usage.Options):
@@ -24,12 +21,12 @@ class Options(usage.Options):
     """
     legalInterpreters = [const.PYTHON, const.ECHO]
     optParameters = [
-        ["interpreter", "i", "python", 
+        ["interpreter", "i", "python",
          ("The interpreter to use; valid options incude: "
           ",".join(legalInterpreters))]
          ]
     subCommands = [
-        ["keygen", None, SubCommandOptions, 
+        ["keygen", None, SubCommandOptions,
          "Generate ssh keys for the server"],
         ["shell", None, SubCommandOptions, "Login to the server"],
         ["stop", None, SubCommandOptions, "Stop the server"],

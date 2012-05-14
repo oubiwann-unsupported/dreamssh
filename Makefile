@@ -6,7 +6,7 @@ TMP_FILE ?= /tmp/MSG
 VIRT_DIR ?= .venv
 
 keygen:
-	@python -c "from dreamssh import server;from dreamssh.apps import scripts;scripts.KeyGen()"
+	@python -c "from dreamssh import app;from dreamssh.sdk import scripts;scripts.KeyGen()"
 
 run:
 	twistd -n dreamssh
@@ -15,10 +15,10 @@ daemon:
 	twistd dreamssh
 
 shell:
-	@python -c "from dreamssh import server;from dreamssh.apps import scripts;scripts.ConnectToShell()"
+	@python -c "from dreamssh import app;from dreamssh.sdk import scripts;scripts.ConnectToShell()"
 
 stop:
-	@python -c "from dreamssh import server;from dreamssh.apps import scripts;scripts.StopDaemon()"
+	@python -c "from dreamssh import app;from dreamssh.sdk import scripts;scripts.StopDaemon()"
 
 run-test:
 	make daemon && make shell && make stop
