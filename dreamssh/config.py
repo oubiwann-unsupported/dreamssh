@@ -70,14 +70,12 @@ class Configurator(object):
         config.set("SSH", "banner", self.ssh.banner)
         return config
 
-
     def getConfigFile(self):
         if os.path.exists(self.main.config.localfile):
             return self.main.config.localfile
         if not os.path.exists(self.main.config.userdir):
             os.mkdir(os.path.expanduser(self.main.config.userdir))
         return self.main.config.userfile
-
 
     def writeDefaults(self):
         config = buildDefaults()
