@@ -48,63 +48,69 @@ ssh.banner = """:
 :
 """
 
+class Configurator(object):
+    """
+    """
+    def __init__(self, main=None, ssh=None):
+        self.main = main
+        self.ssh = ssh
+        self.updateConfig()
 
-def buildDefaults(*configs):
-    [ssh] = configs
-    config = SafeConfigParser()
-    config.add_section("SSH")
-    config.set("SSH", "servicename", ssh.servicename)
-    config.set("SSH", "port", str(ssh.port))
-    config.set("SSH", "pidfile", ssh.pidfile)
-    config.set("SSH", "username", ssh.username)
-    config.set("SSH", "keydir", ssh.keydir)
-    config.set("SSH", "privkey", ssh.privkey)
-    config.set("SSH", "pubkey", ssh.pubkey)
-    config.set("SSH", "localdir", ssh.localdir)
-    config.set("SSH", "banner", ssh.banner)
-    return config
-
-
-def getConfigFile(main):
-    if os.path.exists(main.config.localfile):
-        return main.config.localfile
-    if not os.path.exists(main.config.userdir):
-        os.mkdir(os.path.expanduser(main.config.userdir))
-    return main.config.userfile
+    def buildDefaults(self):
+        config = SafeConfigParser()
+        config.add_section("SSH")
+        config.set("SSH", "servicename", self.ssh.servicename)
+        config.set("SSH", "port", str(self.ssh.port))
+        config.set("SSH", "pidfile", self.ssh.pidfile)
+        config.set("SSH", "username", self.ssh.username)
+        config.set("SSH", "keydir", self.ssh.keydir)
+        config.set("SSH", "privkey", self.ssh.privkey)
+        config.set("SSH", "pubkey", self.ssh.pubkey)
+        config.set("SSH", "localdir", self.ssh.localdir)
+        config.set("SSH", "banner", self.ssh.banner)
+        return config
 
 
-def writeDefaults(*configs):
-    [main, ssh] = configs
-    config = buildDefaults(ssh)
-    with open(getConfigFile(main), "wb") as configFile:
-        config.write(configFile)
+    def getConfigFile(self):
+        if os.path.exists(self.main.config.localfile):
+            return self.main.config.localfile
+        if not os.path.exists(self.main.config.userdir):
+            os.mkdir(os.path.expanduser(self.main.config.userdir))
+        return self.main.config.userfile
 
 
-def updateConfig(*configs):
-    [main, ssh] = configs
-
-    config = SafeConfigParser()
-    config.read(getConfigFile(main))
-
-    # Internal SSH Server
-    ssh.servicename = config.get("SSH", "servicename")
-    ssh.port = int(config.get("SSH", "port"))
-    ssh.pidfile = config.get("SSH", "pidfile")
-    ssh.username = str(config.get("SSH", "username"))
-    ssh.keydir = config.get("SSH", "keydir")
-    ssh.privkey = config.get("SSH", "privkey")
-    ssh.pubkey = config.get("SSH", "pubkey")
-    ssh.localdir = config.get("SSH", "localdir")
-    ssh.banner = str(config.get("SSH", "banner"))
+    def writeDefaults(self):
+        config = buildDefaults()
+        with open(self.getConfigFile(), "wb") as configFile:
+            config.write(configFile)
 
 
-configFile = getConfigFile(main)
-if not os.path.exists(configFile):
-    writeDefaults(main)
-updateConfig(main, ssh)
+    def updateConfig(self):
+        """
+        If the configfile doesn't exist, this method will create it and exit.
+
+        If it does exist, it will load the config values from the file (which
+        may be different from those defined be default in this module), and
+        update the in-memory config values with what it reads from the file.
+        """
+        configFile = self.getConfigFile()
+        if not os.path.exists(configFile):
+            self.writeDefaults()
+            return
+        config = SafeConfigParser()
+        config.read(self.getConfigFile())
+        self.ssh.servicename = config.get("SSH", "servicename")
+        self.ssh.port = int(config.get("SSH", "port"))
+        self.ssh.pidfile = config.get("SSH", "pidfile")
+        self.ssh.username = str(config.get("SSH", "username"))
+        self.ssh.keydir = config.get("SSH", "keydir")
+        self.ssh.privkey = config.get("SSH", "privkey")
+        self.ssh.pubkey = config.get("SSH", "pubkey")
+        self.ssh.localdir = config.get("SSH", "localdir")
+        self.ssh.banner = str(config.get("SSH", "banner"))
 
 
-#del SafeConfigParser, json, os
-del Config
-#del buildDefaults, configFile, getConfigFile, updateConfig, writeDefaults
-del configFile, updateConfig
+Configurator(main, ssh)
+
+
+del Config, Configurator
