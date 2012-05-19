@@ -84,21 +84,27 @@ class Configurator(object):
         with open(self.getConfigFile(), "wb") as configFile:
             config.write(configFile)
 
-
-    def updateConfig(self):
-        """
-        If the configfile doesn't exist, this method will create it and exit.
-
-        If it does exist, it will load the config values from the file (which
-        may be different from those defined be default in this module), and
-        update the in-memory config values with what it reads from the file.
-        """
+    def getConfig(self):
         configFile = self.getConfigFile()
         if not os.path.exists(configFile):
             self.writeDefaults()
             return
         config = SafeConfigParser()
-        config.read(self.getConfigFile())
+        config.read(configFile)
+        return config
+
+    def updateConfig(self):
+        """
+        If the configfile doesn't exist, this method will (indirectly) create
+        it and exit.
+
+        If it does exist, it will load the config values from the file (which
+        may be different from those defined be default in this module), and
+        update the in-memory config values with what it reads from the file.
+        """
+        config = self.getConfig()
+        if not config:
+            return
         self.ssh.servicename = config.get("SSH", "servicename")
         self.ssh.port = int(config.get("SSH", "port"))
         self.ssh.pidfile = config.get("SSH", "pidfile")
@@ -108,6 +114,7 @@ class Configurator(object):
         self.ssh.pubkey = config.get("SSH", "pubkey")
         self.ssh.localdir = config.get("SSH", "localdir")
         self.ssh.banner = str(config.get("SSH", "banner"))
+        return config
 
 
 Configurator(main, ssh)
