@@ -49,7 +49,8 @@ ssh.banner = """:
 """
 
 
-def buildDefaults():
+def buildDefaults(*configs):
+    [ssh] = configs
     config = SafeConfigParser()
     config.add_section("SSH")
     config.set("SSH", "servicename", ssh.servicename)
@@ -64,7 +65,7 @@ def buildDefaults():
     return config
 
 
-def getConfigFile():
+def getConfigFile(main):
     if os.path.exists(main.config.localfile):
         return main.config.localfile
     if not os.path.exists(main.config.userdir):
@@ -72,15 +73,18 @@ def getConfigFile():
     return main.config.userfile
 
 
-def writeDefaults():
-    config = buildDefaults()
-    with open(getConfigFile(), "wb") as configFile:
+def writeDefaults(*configs):
+    [main, ssh] = configs
+    config = buildDefaults(ssh)
+    with open(getConfigFile(main), "wb") as configFile:
         config.write(configFile)
 
 
-def updateConfig():
+def updateConfig(*configs):
+    [main, ssh] = configs
+
     config = SafeConfigParser()
-    config.read(getConfigFile())
+    config.read(getConfigFile(main))
 
     # Internal SSH Server
     ssh.servicename = config.get("SSH", "servicename")
@@ -94,10 +98,10 @@ def updateConfig():
     ssh.banner = str(config.get("SSH", "banner"))
 
 
-configFile = getConfigFile()
+configFile = getConfigFile(main)
 if not os.path.exists(configFile):
-    writeDefaults()
-updateConfig()
+    writeDefaults(main)
+updateConfig(main, ssh)
 
 
 #del SafeConfigParser, json, os
