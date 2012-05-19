@@ -116,6 +116,3 @@ class Configurator(object):
 
 
 Configurator(main, ssh)
-
-
-del Config, Configurator
