@@ -54,7 +54,6 @@ class Configurator(object):
     def __init__(self, main=None, ssh=None):
         self.main = main
         self.ssh = ssh
-        self.updateConfig()
 
     def buildDefaults(self):
         config = SafeConfigParser()
@@ -115,4 +114,5 @@ class Configurator(object):
         return config
 
 
-Configurator(main, ssh)
+configurator = Configurator(main, ssh)
+configurator.updateConfig()
