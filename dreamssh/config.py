@@ -78,7 +78,7 @@ class Configurator(object):
         return self.main.config.userfile
 
     def writeDefaults(self):
-        config = buildDefaults()
+        config = self.buildDefaults()
         with open(self.getConfigFile(), "wb") as configFile:
             config.write(configFile)
 
