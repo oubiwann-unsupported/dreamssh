@@ -8,6 +8,15 @@ def getConfig():
     return getUtility(interfaces.IConfig)
 
 
+def registerComponent(instance, interface):
+    try:
+        instance = getUtility(interface)
+    except ComponentLookupError:
+        gsm = getGlobalSiteManager()
+        gsm.registerUtility(instance, interface)
+    return instance
+
+
 def registerConfig(config):
     """
     For right now, only one configuration is allowed at a time.
@@ -17,9 +26,5 @@ def registerConfig(config):
 
     This will be importing config, interfaces, and util.
     """
-    try:
-        config = getConfig()
-    except ComponentLookupError:
-        gsm = getGlobalSiteManager()
-        gsm.registerUtility(config, interfaces.IConfig)
-    return config
+    return registerComponent(config, interfaces.IConfig)
+
