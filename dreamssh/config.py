@@ -24,6 +24,7 @@ main.config.userfile = "%s/%s" % (main.config.userdir, main.config.localfile)
 # Internal SSH Server
 ssh = Config()
 ssh.servicename = meta.description
+ssh.ip = "127.0.0.1"
 ssh.port = 2222
 ssh.pidfile = "twistd.pid"
 ssh.username = "root"
@@ -59,6 +60,7 @@ class Configurator(object):
         config = SafeConfigParser()
         config.add_section("SSH")
         config.set("SSH", "servicename", self.ssh.servicename)
+        config.set("SSH", "ip", str(self.ssh.ip))
         config.set("SSH", "port", str(self.ssh.port))
         config.set("SSH", "pidfile", self.ssh.pidfile)
         config.set("SSH", "username", self.ssh.username)
@@ -103,6 +105,7 @@ class Configurator(object):
         if not config:
             return
         self.ssh.servicename = config.get("SSH", "servicename")
+        self.ssh.ip = config.get("SSH", "ip")
         self.ssh.port = int(config.get("SSH", "port"))
         self.ssh.pidfile = config.get("SSH", "pidfile")
         self.ssh.username = str(config.get("SSH", "username"))
@@ -114,5 +117,6 @@ class Configurator(object):
         return config
 
 
-configurator = Configurator(main, ssh)
-configurator.updateConfig()
+def updateConfig():
+    configurator = Configurator(main, ssh)
+    configurator.updateConfig()

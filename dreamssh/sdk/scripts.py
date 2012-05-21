@@ -43,15 +43,15 @@ class ConnectToShell(Script):
     """
     """
     def run(self):
-        print "Connecting to DreamSSH Server ..."
-        subprocess.call(["ssh",  "-p %s" % config.ssh.port,  "127.0.0.1"])
+        print "Connecting to %s ..." % config.ssh.servicename
+        subprocess.call(["ssh",  "-p %s" % config.ssh.port,  config.ssh.ip])
 
 
 class StopDaemon(Script):
     """
     """
     def run(self):
-        print "Stopping DreamSSH Server ..."
+        print "Stopping %s ..." % config.ssh.servicename
         if not os.path.exists(config.ssh.pidfile):
             print "Could not find the server's PID file ..."
             print "Aborting."
