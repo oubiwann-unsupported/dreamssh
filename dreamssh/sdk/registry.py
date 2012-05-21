@@ -8,6 +8,10 @@ def getConfig():
     return getUtility(interfaces.IConfig)
 
 
+def getLogger():
+    return getUtility(interfaces.ILogger)
+
+
 def registerComponent(instance, interface):
     try:
         instance = getUtility(interface)

@@ -8,3 +8,9 @@ class IConfig(Interface):
     This interface is what is used to query the global registry for
     configuration instances.
     """
+
+
+class ILogger(Interface):
+    """
+    A Marker interface for anything that does logging.
+    """
