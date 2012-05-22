@@ -49,6 +49,7 @@ ssh.banner = """:
 :
 """
 
+
 class Configurator(object):
     """
     """

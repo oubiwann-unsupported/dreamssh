@@ -12,6 +12,10 @@ def getLogger():
     return getUtility(interfaces.ILogger)
 
 
+def getTerminalWriter():
+    return getUtility(interfaces.ITerminalWriter)
+
+
 def registerComponent(instance, interface):
     try:
         instance = getUtility(interface)
@@ -31,4 +35,3 @@ def registerConfig(config):
     This will be importing config, interfaces, and util.
     """
     return registerComponent(config, interfaces.IConfig)
-

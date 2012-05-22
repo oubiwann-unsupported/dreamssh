@@ -1,5 +1,7 @@
+from zope.interface import implements
+
 from dreamssh.app.shell import base
-from dreamssh.sdk import registry
+from dreamssh.sdk import interfaces, registry
 
 
 config = registry.getConfig()
@@ -43,6 +45,8 @@ class EchoInterpreter(base.Interpreter):
     A simple interpreter that demonstrate where one can plug in any
     command-parsing shell.
     """
+    implements(interfaces.ITerminalWriter)
+
     def runsource(self, input, filename):
         self.write("input = %s, filename = %s" % (input, filename))
 
@@ -62,6 +66,8 @@ class EchoManhole(base.MOTDColoredManhole):
         else:
             namespace = self.namespace
         self.interpreter = EchoInterpreter(self, locals=namespace)
+        registry.registerComponent(
+            self.interpreter, interfaces.ITerminalWriter)
 
     def updateNamespace(self, namespace={}):
         self.interpreter.updateNamespace(namespace)

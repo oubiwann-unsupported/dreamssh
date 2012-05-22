@@ -2,10 +2,12 @@ import os
 from pprint import pprint
 import sys
 
+from zope.interface import implements
+
 from twisted.conch.manhole import ManholeInterpreter
 
 from dreamssh.app.shell import base
-from dreamssh.sdk import exceptions, registry
+from dreamssh.sdk import exceptions, interfaces, registry
 
 
 config = registry.getConfig()
@@ -105,6 +107,8 @@ class PythonTerminalSession(base.ExecutingTerminalSession):
 class PythonInterpreter(ManholeInterpreter):
     """
     """
+    implements(interfaces.ITerminalWriter)
+
     # XXX namespace code needs to be better organized:
     #   * should the CommandAPI be in this module?
     def updateNamespace(self, namespace={}):
@@ -132,6 +136,8 @@ class PythonManhole(base.MOTDColoredManhole):
     """
     def setInterpreter(self):
         self.interpreter = PythonInterpreter(self, locals=self.namespace)
+        registry.registerComponent(
+            self.interpreter, interfaces.ITerminalWriter)
 
     def updateNamespace(self, namespace={}):
         self.interpreter.updateNamespace(namespace)

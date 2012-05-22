@@ -14,3 +14,10 @@ class ILogger(Interface):
     """
     A Marker interface for anything that does logging.
     """
+
+
+class ITerminalWriter(Interface):
+    """
+    A marker interface for objects that can write data to a text-base user
+    interface.
+    """
