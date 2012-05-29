@@ -33,6 +33,8 @@ ssh.keydir = os.path.join(main.config.datadir, "ssh")
 ssh.privkey = "id_rsa"
 ssh.pubkey = "id_rsa.pub"
 ssh.localdir = "~/.ssh"
+ssh.userdirtemplate = os.path.join(main.config.datadir, "users", "%s")
+ssh.userauthkeys = os.path.join(ssh.userdirtemplate, "authorized_keys")
 ssh.banner = """:
 : Welcome to
 :
