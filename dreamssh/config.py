@@ -17,9 +17,10 @@ class Config(object):
 # Main
 main = Config()
 main.config = Config()
-main.config.userdir = os.path.expanduser("~/.%s" % meta.library_name)
+main.config.datadir = os.path.expanduser("~/.%s" % meta.library_name)
 main.config.localfile = "config.ini"
-main.config.userfile = "%s/%s" % (main.config.userdir, main.config.localfile)
+main.config.installedfile = os.path.join(
+    main.config.datadir, main.config.localfile)
 
 # Internal SSH Server
 ssh = Config()
@@ -28,7 +29,7 @@ ssh.ip = "127.0.0.1"
 ssh.port = 2222
 ssh.pidfile = "twistd.pid"
 ssh.username = "root"
-ssh.keydir = os.path.join(main.config.userdir, "ssh")
+ssh.keydir = os.path.join(main.config.datadir, "ssh")
 ssh.privkey = "id_rsa"
 ssh.pubkey = "id_rsa.pub"
 ssh.localdir = "~/.ssh"
@@ -75,9 +76,9 @@ class Configurator(object):
     def getConfigFile(self):
         if os.path.exists(self.main.config.localfile):
             return self.main.config.localfile
-        if not os.path.exists(self.main.config.userdir):
-            os.mkdir(os.path.expanduser(self.main.config.userdir))
-        return self.main.config.userfile
+        if not os.path.exists(self.main.config.datadir):
+            os.mkdir(os.path.expanduser(self.main.config.datadir))
+        return self.main.config.installedfile
 
     def writeDefaults(self):
         config = self.buildDefaults()
