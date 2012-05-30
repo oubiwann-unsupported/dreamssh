@@ -21,7 +21,8 @@ class PublicKeyDatabase(SSHPublicKeyDatabase):
         if config.ssh.usesystemkeys:
             return SSHPublicKeyDatabase.getAuthorizedKeysFiles(
                 self, credentials)
-        return [FilePath(config.ssh.userauthkeys % credentials.username)]
+        return [FilePath(
+            config.ssh.userauthkeys.replace("{{USER}}", credentials.username))]
 
     def checkKey(self, credentials):
         if config.ssh.usesystemkeys:
