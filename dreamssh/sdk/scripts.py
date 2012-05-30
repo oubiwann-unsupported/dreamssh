@@ -1,3 +1,4 @@
+from datetime import datetime
 import os, subprocess
 
 from twisted.conch.scripts import ckeygen
@@ -61,6 +62,31 @@ class StopDaemon(Script):
             pid = open(config.ssh.pidfile).read()
             subprocess.call(["kill", pid])
             print "Stopped."
+
+
+class GenerateConfig(Script):
+    """
+    """
+    def backupConfig(self, src):
+        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+        dest = FilePath("%s.%s" % (src.path, timestamp))
+        # if something goes wrong with the setContent call, don't remove the
+        # source!
+        try:
+            dest.setContent(src.open().read())
+            src.remove()
+        except Exception, e:
+            raise e
+
+    def run(self):
+        # get config file path
+        configurator = config.configuratorFactory()
+        filePath = FilePath(configurator.getConfigFile())
+        # check to see if it exists, and if so, back it up
+        if filePath.exists():
+            self.backupConfig(filePath)
+        # write the new config
+        configurator.writeDefaults()
 
 
 class ImportKeys(Script):
