@@ -85,13 +85,18 @@ class ImportKeys(Script):
 
     def getAuthKeys(self):
         authKeys = FilePath(config.ssh.userauthkeys % self.username)
-        #if authKeys.exists():
-        return authKeys
+        data = None
+        if authKeys.exists():
+            data = authKeys.open()
+        return (authKeys, data.read())
 
     def saveKeys(self, result):
         self.createDirs()
-        filePath = self.getAuthKeys()
-        filePath.setContent(result)
+        filePath, data = self.getAuthKeys()
+        if data:
+            filePath.setContent("%s\n%s" % (data, result))
+        else:
+            filePath.setContent(result)
         self.finish()
 
     def logError(self, failure):
