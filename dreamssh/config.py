@@ -33,7 +33,7 @@ ssh.keydir = os.path.join(main.config.datadir, "ssh")
 ssh.privkey = "id_rsa"
 ssh.pubkey = "id_rsa.pub"
 ssh.localdir = "~/.ssh"
-ssh.userdirtemplate = os.path.join(main.config.datadir, "users", "%s")
+ssh.userdirtemplate = os.path.join(main.config.datadir, "users", "{{USER}}")
 ssh.userauthkeys = os.path.join(ssh.userdirtemplate, "authorized_keys")
 ssh.usesystemkeys = False
 ssh.banner = """:
@@ -75,7 +75,7 @@ class Configurator(object):
         config.set("SSH", "localdir", self.ssh.localdir)
         config.set("SSH", "userdirtemplate", self.ssh.userdirtemplate)
         config.set("SSH", "userauthkeys", self.ssh.userauthkeys)
-        config.set("SSH", "usesystemkeys", self.ssh.usesystemkeys)
+        config.set("SSH", "usesystemkeys", str(self.ssh.usesystemkeys))
         config.set("SSH", "banner", self.ssh.banner)
         return config
 
@@ -123,7 +123,7 @@ class Configurator(object):
         self.ssh.localdir = config.get("SSH", "localdir")
         self.ssh.userdirtemplate = config.get("SSH", "userdirtemplate")
         self.ssh.userauthkeys = config.get("SSH", "userauthkeys")
-        self.ssh.usesystemkeys = config.get("SSH", "usesystemkeys")
+        self.ssh.usesystemkeys = eval(config.get("SSH", "usesystemkeys"))
         self.ssh.banner = str(config.get("SSH", "banner"))
         return config
 
