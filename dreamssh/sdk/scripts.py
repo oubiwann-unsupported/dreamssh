@@ -1,7 +1,9 @@
-import os
-import subprocess
+import os, subprocess
 
 from twisted.conch.scripts import ckeygen
+from twisted.internet import reactor
+from twisted.python.filepath import FilePath
+from twisted.web import client
 
 from dreamssh.sdk import registry
 
@@ -59,3 +61,45 @@ class StopDaemon(Script):
             pid = open(config.ssh.pidfile).read()
             subprocess.call(["kill", pid])
             print "Stopped."
+
+
+class ImportKeys(Script):
+    """
+    """
+    lp_template = "https://launchpad.net/~%s/+sshkeys"
+
+    def __init__(self, username, lp_username=None):
+        self.username = username
+        if not lp_username:
+            lp_username = username
+        self.lp_url = self.lp_template % lp_username
+        super(ImportKeys, self).__init__()
+
+    def finish(self):
+        reactor.stop()
+
+    def createDirs(self):
+        userDir = FilePath(config.ssh.userdirtemplate % self.username)
+        if not userDir.exists():
+            userDir.makedirs()
+
+    def getAuthKeys(self):
+        authKeys = FilePath(config.ssh.userauthkeys % self.username)
+        #if authKeys.exists():
+        return authKeys
+
+    def saveKeys(self, result):
+        self.createDirs()
+        filePath = self.getAuthKeys()
+        filePath.setContent(result)
+        self.finish()
+
+    def logError(self, failure):
+        print failure
+        self.finish()
+
+    def run(self):
+        deferred = client.getPage(self.lp_url)
+        deferred.addCallback(self.saveKeys)
+        deferred.addErrback(self.logError)
+        reactor.run()
