@@ -14,7 +14,7 @@ config = registry.getConfig()
 
 
 BANNER_HELP = ("Type 'ls()' or 'dir()' to see the objects in the "
-               "current namespace.\nUse help(...) to get API docs "
+               "current namespace.\n: Use help(...) to get API docs "
                "for available objects.")
 
 
