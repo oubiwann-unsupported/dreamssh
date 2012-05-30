@@ -20,6 +20,12 @@ shell:
 stop:
 	@python -c "from dreamssh import app;from dreamssh.sdk import scripts;scripts.StopDaemon()"
 
+import-keys: GAME_USER ?= 
+import-keys: LP_USER ?=
+import-keys:
+	python -c "from dreamssh import app;from dreamssh.sdk import scripts;\
+	scripts.ImportKeys('$(GAME_USER)', '$(LP_USER)');"
+
 run-test:
 	make daemon && make shell && make stop
 
