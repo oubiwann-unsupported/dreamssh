@@ -9,24 +9,25 @@ of* ``twistd``?
 
 DreamSSH provides, out of the box, the following:
 
+* provides an easy mechanism for creating your own shell
+
 * configurable banner/MOTD
 
 * the ability to templatize your banner (e.g., changing the "help" based on
   interpreter type)
 
-* it provides an easy means of generating keys (and then uses them
+* it provides an easy means of generating server keys (and then uses them
   automatically)
 
-* by default, uses the local filesystems SSH keys for authenticating users
+* by default, uses a custom directory for checking authorized SSH keys, but can
+  also user HOME for locating authorized keys
 
-* provides an easy mechanism for creating your own shell
+* can import keys from Launchpad.net
 
 
 And there's more coming:
 
 * shared sessions (multiple uses in a single space)
-
-* multiple filesystem locations for user ssh keys
 
 * user roles
 
@@ -172,3 +173,35 @@ Hacking
 -------
 
 TBD
+
+Revision History
+================
+
+0.2
+---
+
+* modular configuration using zope.components
+
+* user ssh keys that don't require a user have an account on the machine where
+  DreamSSH is running
+
+* a script class and make target for importing a user's public keys from
+  Launchpad.net
+
+* provide a DreamSSH sdk subpackage for use by other projects
+
+
+0.1
+---
+
+* configurable banner/MOTD
+
+* the ability to templatize your banner (e.g., changing the "help" based on
+  interpreter type)
+
+* it provides an easy means of generating keys (and then uses them
+  automatically)
+
+* by default, uses the local filesystems SSH keys for authenticating users
+
+* provides an easy mechanism for creating your own shell
