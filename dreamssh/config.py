@@ -73,6 +73,9 @@ class Configurator(object):
         config.set("SSH", "privkey", self.ssh.privkey)
         config.set("SSH", "pubkey", self.ssh.pubkey)
         config.set("SSH", "localdir", self.ssh.localdir)
+        config.set("SSH", "userdirtemplate", self.ssh.userdirtemplate)
+        config.set("SSH", "userauthkeys", self.ssh.userauthkeys)
+        config.set("SSH", "usesystemkeys", self.ssh.usesystemkeys)
         config.set("SSH", "banner", self.ssh.banner)
         return config
 
@@ -118,10 +121,17 @@ class Configurator(object):
         self.ssh.privkey = config.get("SSH", "privkey")
         self.ssh.pubkey = config.get("SSH", "pubkey")
         self.ssh.localdir = config.get("SSH", "localdir")
+        self.ssh.userdirtemplate = config.get("SSH", "userdirtemplate")
+        self.ssh.userauthkeys = config.get("SSH", "userauthkeys")
+        self.ssh.usesystemkeys = config.get("SSH", "usesystemkeys")
         self.ssh.banner = str(config.get("SSH", "banner"))
         return config
 
 
+def configuratorFactory():
+    return Configurator(main, ssh)
+
+
 def updateConfig():
-    configurator = Configurator(main, ssh)
+    configurator = configuratorFactory()
     configurator.updateConfig()
