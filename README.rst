@@ -1,8 +1,9 @@
+~~~~~~~~~~~~~~~
 DreamSSH Server
-===============
+~~~~~~~~~~~~~~~
 
 Features
---------
+========
 
 *What does this give me, over and above the default* ``manhole`` *capabilities
 of* ``twistd``?
@@ -37,7 +38,7 @@ And there's more coming:
 
 
 Install
--------
+=======
 
 You can install from PyPI, which will give you the latest released (hopefully
 stable) version of the software::
@@ -55,7 +56,7 @@ Finally, you can just get the code itself::
 
 
 Dependencies
--------------
+=============
 
 If you used ``pip`` to install DreamSSH, then you will have the necessary
 libraries installed. If you will be running from source code, you'll need to do
@@ -72,7 +73,7 @@ by the server::
 
 
 Running
--------
+=======
 
 Once you have DreamSSH installed, interacting with the server is as easy as the
 following::
@@ -107,7 +108,7 @@ convenience make targets::
 
 
 Using
------
+=====
 
 When you log into the Python shell::
 
@@ -164,13 +165,13 @@ The echo shell is intended to provide insight or a starting point for
 developers who want to implement their own shell their users can ssh into.
 
 Configuring
------------
+===========
 
 TBD
 
 
 Hacking
--------
+=======
 
 TBD
 
@@ -187,6 +188,8 @@ Revision History
 
 * a script class and make target for importing a user's public keys from
   Launchpad.net
+
+* a thorough code reorganization
 
 * provide a DreamSSH sdk subpackage for use by other projects
 
