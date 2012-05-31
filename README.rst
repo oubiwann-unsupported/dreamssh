@@ -61,7 +61,7 @@ Dependencies
 Storage in DreamSSH is handled by MongoDB, so you will need to have this
 software installed on your system. See the following for more information:
 
- * http://docs.mongodb.org/master/installation/
+* http://docs.mongodb.org/master/installation/
 
 If you used ``pip`` to install DreamSSH, then you will have the necessary
 libraries installed. If you will be running from source code, you'll need to do
@@ -187,6 +187,17 @@ TBD
 
 Revision History
 ================
+
+
+0.3
+---
+
+* added support for roles and restricting commands based on roles
+
+* added support for persistent storage with MongoDB
+
+* added new functions for listing logged-in users, getting user info, etc.
+
 
 0.2
 ---
