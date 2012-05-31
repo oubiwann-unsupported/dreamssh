@@ -18,6 +18,8 @@ Bugs
 Tasks
 -----
 
+* Add a twistd dreamssh subcommand for generating the config
+
 * Add support for things like:
   * who - all logged in users
   * whois - info about a user
