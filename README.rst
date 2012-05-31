@@ -14,16 +14,16 @@ DreamSSH provides, out of the box, the following:
 
 * configurable banner/MOTD
 
-* the ability to templatize your banner (e.g., changing the "help" based on
+* enable's server admins to templatize their banner (e.g., changing the "help" based on
   interpreter type)
 
-* it provides an easy means of generating server keys (and then uses them
+* provides an easy means of generating server keys (and then uses them
   automatically)
 
-* by default, uses a custom directory for checking authorized SSH keys, but can
-  also user HOME for locating authorized keys
+* by default, it uses a custom directory for checking authorized SSH keys, but can
+  also use ``$HOME`` for locating authorized keys
 
-* can import keys from Launchpad.net
+* can import SSH keys from Launchpad.net
 
 
 And there's more coming:
