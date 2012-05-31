@@ -63,18 +63,18 @@ software installed on your system. See the following for more information:
 
 * http://docs.mongodb.org/master/installation/
 
-If you used ``pip`` to install DreamSSH, then you will have the necessary
-libraries installed. If you will be running from source code, you'll need to do
-the following::
+If you used ``pip`` to install DreamSSH, then you will have most of the
+necessary libraries installed. TxMongo doesn't have a PyPI download yet, so
+you'll need to install it manually::
+
+    $ sudo pip install https://github.com/dreamhost/mongo-async-python-driver/zipball/master
+
+If you didn't use ``pip`` to install DreamSSH, you will also need to do the
+following::
 
     $ sudo pip install pyasn1
     $ sudo pip install PyCrypto
     $ sudo pip install twisted
-
-TxMongo doesn't have a PyPI download yet, so you'll need to install it
-manually::
-
-    $ sudo pip install https://github.com/dreamhost/mongo-async-python-driver/zipball/master
 
 Once the dependencies are installed, you'll need to generate the keys for use
 by the server::
@@ -107,15 +107,23 @@ When you're ready to shut it down::
 
     $ twistd dreamssh stop
 
+If you'd like to regenerate the config file for DreamSSH, you can do so with
+the following command::
+
+    $ twistd dreamssh generate-config
+
+The old config will be saved in the ``~/.dreamssh`` directory with a timestamp
+appended to its filename.
+
 For those who have a ``clone`` of the git repo, there are development
-convenience make targets::
+convenience make targets that mirror the above functionality::
 
     $ make keygen
     $ make daemon
     $ make run
     $ make shell
     $ make stop
-
+    $ make generate-config
 
 Using
 =====
