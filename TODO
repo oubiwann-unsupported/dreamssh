@@ -1,6 +1,7 @@
 TODO
 ====
 
+
 Bugs
 ----
 
@@ -13,32 +14,38 @@ Bugs
 * Received unhandled keyID: '\x05' (^e) doesn't send the cursor to the end of
   the line
 
+
 Tasks
 -----
 
-* Add support for shared sessions
-  * we want to be able to provide a shell where everyone that logs in sees what
-    everyone else is doing
-  * this can be prototyped in the sandbox
-  * this should be as easy as setting up a singleton session...
+* Add support for things like:
+  * who - all logged in users
+  * whois - info about a user
+  * sending messages to all logged in users
 
-* Add support for dynamic prompts
-
-* Add support for a status bar on the screen somewhere
+* Add support for tab-completion
 
 * Create an admin role
  * only those in the admin role have permission to see and use sys and os
    modules
- * only allow admins to see the function that lists current users
-
-* Remove os and sys calls that aren't safe
-  * maybe follow Google App Engine's lead on this one?
+ * only allow admins to see the various sensitive functions (e.g., sending
+   messages to all users)
 
 * Add generic support for roles
   * provide a mechanism whereby admins can create roles, and
   * assign different APIs or limited APIs to roles
-  * when a role is created, it needs to be written to the config file so that
-    it's available when the server restarts
+  * support role persistence
+    * when a role is created, it needs to be stored somewhere
+      so that it's available when the server restarts
+    * make MongoDB and txMongo dependencies
+
+* Add support for storing additional keys in MongoDB
+  * this will allow users the ability to update their keys and not have to
+    write to the filesystem
+
+* Add support for dynamic prompts
+
+* Add support for a status bar on the screen somewhere
 
 * Add phased login
   * a login to create an account
