@@ -58,6 +58,11 @@ Finally, you can just get the code itself::
 Dependencies
 =============
 
+Storage in DreamSSH is handled by MongoDB, so you will need to have this
+software installed on your system. See the following for more information:
+
+ * http://docs.mongodb.org/master/installation/
+
 If you used ``pip`` to install DreamSSH, then you will have the necessary
 libraries installed. If you will be running from source code, you'll need to do
 the following::
@@ -65,6 +70,11 @@ the following::
     $ sudo pip install pyasn1
     $ sudo pip install PyCrypto
     $ sudo pip install twisted
+
+TxMongo doesn't have a PyPI download yet, so you'll need to install it
+manually::
+
+    $ sudo pip install https://github.com/dreamhost/mongo-async-python-driver/zipball/master
 
 Once the dependencies are installed, you'll need to generate the keys for use
 by the server::
