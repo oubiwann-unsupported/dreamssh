@@ -7,13 +7,14 @@ Bugs
 * When executing the "clear" shell command, the new screen has a newline at the
   top
 
+* Received unhandled keyID: '\x01' (^a) doesn't return cursor to the beginning
+  of the line
+
+* Received unhandled keyID: '\x05' (^e) doesn't send the cursor to the end of
+  the line
 
 Tasks
 -----
-
-* Split out SSH Server code into a separate project?
-  * make dreammud use it
-  * make inversum use it
 
 * Add support for shared sessions
   * we want to be able to provide a shell where everyone that logs in sees what
@@ -21,23 +22,23 @@ Tasks
   * this can be prototyped in the sandbox
   * this should be as easy as setting up a singleton session...
 
-* Update SSH server to accept keys from non-~/.ssh dirs
-  * store keys in configured dir
-  * maybe subdirs, divided by user?
-
-* Maybe move commandAPI from shell.base.MOTDColoredManhole to
-  DreamSSHInterpreter?
-
 * Add support for dynamic prompts
 
 * Add support for a status bar on the screen somewhere
+
+* Create an admin role
+ * only those in the admin role have permission to see and use sys and os
+   modules
+ * only allow admins to see the function that lists current users
 
 * Remove os and sys calls that aren't safe
   * maybe follow Google App Engine's lead on this one?
 
 * Add generic support for roles
-  * provide a mechanism whereby programmers can create roles, and
+  * provide a mechanism whereby admins can create roles, and
   * assign different APIs or limited APIs to roles
+  * when a role is created, it needs to be written to the config file so that
+    it's available when the server restarts
 
 * Add phased login
   * a login to create an account
