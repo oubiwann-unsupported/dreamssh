@@ -1,5 +1,5 @@
-from twisted.conch import manhole, manhole_ssh
-from twisted.python import log
+from twisted.conch import interfaces, manhole, manhole_ssh
+from twisted.python import components, log
 
 from dreamssh.sdk import exceptions, registry
 
@@ -92,9 +92,22 @@ class TerminalSession(manhole_ssh.TerminalSession):
     """
     """
     transportFactory = TerminalSessionTransport
+    users = {}
 
     def windowChanged(self, coords):
         log.msg("New coordinates: %s" % str(coords))
+
+    def openShell(self, proto):
+        chainedProtocol = self.chainedProtocolFactory()
+        avatar = interfaces.IConchUser(self.original)
+        transport = self.transportFactory(
+            proto, chainedProtocol, avatar, self.width, self.height)
+        # XXX this is sensitive information -- we need to make sure that it's
+        # not exposed to anyone but admins
+        self.users[avatar] = {
+            "chainedProtocol": chainedProtocol,
+            "transport": transport,
+            }
 
 
 class ExecutingTerminalSession(TerminalSession):
@@ -119,7 +132,21 @@ class ExecutingTerminalRealm(manhole_ssh.TerminalRealm):
     """
     sessionFactory = ExecutingTerminalSession
     transportFactory = TerminalSessionTransport
+    userComponents = {}
 
     def __init__(self, namespace):
         manhole_ssh.TerminalRealm.__init__(self)
         self.sessionFactory.namespace = namespace
+
+    def _getAvatar(self, avatarId):
+        comp = components.Componentized()
+        user = self.userFactory(comp, avatarId)
+        sess = self.sessionFactory(comp)
+        sess.transportFactory = self.transportFactory
+        sess.chainedProtocolFactory = self.chainedProtocolFactory
+        comp.setComponent(interfaces.IConchUser, user)
+        comp.setComponent(interfaces.ISession, sess)
+        # XXX this is sensitive information -- we need to make sure that it's
+        # not exposed to anyone but admins
+        self.userComponents[avatarId] = comp
+        return user

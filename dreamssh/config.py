@@ -17,9 +17,10 @@ class Config(object):
 # Main
 main = Config()
 main.config = Config()
-main.config.userdir = os.path.expanduser("~/.%s" % meta.library_name)
+main.config.datadir = os.path.expanduser("~/.%s" % meta.library_name)
 main.config.localfile = "config.ini"
-main.config.userfile = "%s/%s" % (main.config.userdir, main.config.localfile)
+main.config.installedfile = os.path.join(
+    main.config.datadir, main.config.localfile)
 
 # Internal SSH Server
 ssh = Config()
@@ -28,10 +29,13 @@ ssh.ip = "127.0.0.1"
 ssh.port = 2222
 ssh.pidfile = "twistd.pid"
 ssh.username = "root"
-ssh.keydir = os.path.join(main.config.userdir, "ssh")
+ssh.keydir = os.path.join(main.config.datadir, "ssh")
 ssh.privkey = "id_rsa"
 ssh.pubkey = "id_rsa.pub"
 ssh.localdir = "~/.ssh"
+ssh.userdirtemplate = os.path.join(main.config.datadir, "users", "{{USER}}")
+ssh.userauthkeys = os.path.join(ssh.userdirtemplate, "authorized_keys")
+ssh.usesystemkeys = False
 ssh.banner = """:
 : Welcome to
 :
@@ -69,15 +73,18 @@ class Configurator(object):
         config.set("SSH", "privkey", self.ssh.privkey)
         config.set("SSH", "pubkey", self.ssh.pubkey)
         config.set("SSH", "localdir", self.ssh.localdir)
+        config.set("SSH", "userdirtemplate", self.ssh.userdirtemplate)
+        config.set("SSH", "userauthkeys", self.ssh.userauthkeys)
+        config.set("SSH", "usesystemkeys", str(self.ssh.usesystemkeys))
         config.set("SSH", "banner", self.ssh.banner)
         return config
 
     def getConfigFile(self):
         if os.path.exists(self.main.config.localfile):
             return self.main.config.localfile
-        if not os.path.exists(self.main.config.userdir):
-            os.mkdir(os.path.expanduser(self.main.config.userdir))
-        return self.main.config.userfile
+        if not os.path.exists(self.main.config.datadir):
+            os.mkdir(os.path.expanduser(self.main.config.datadir))
+        return self.main.config.installedfile
 
     def writeDefaults(self):
         config = self.buildDefaults()
@@ -114,10 +121,17 @@ class Configurator(object):
         self.ssh.privkey = config.get("SSH", "privkey")
         self.ssh.pubkey = config.get("SSH", "pubkey")
         self.ssh.localdir = config.get("SSH", "localdir")
+        self.ssh.userdirtemplate = config.get("SSH", "userdirtemplate")
+        self.ssh.userauthkeys = config.get("SSH", "userauthkeys")
+        self.ssh.usesystemkeys = eval(config.get("SSH", "usesystemkeys"))
         self.ssh.banner = str(config.get("SSH", "banner"))
         return config
 
 
+def configuratorFactory():
+    return Configurator(main, ssh)
+
+
 def updateConfig():
-    configurator = Configurator(main, ssh)
+    configurator = configuratorFactory()
     configurator.updateConfig()

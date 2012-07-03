@@ -1,32 +1,34 @@
+~~~~~~~~~~~~~~~
 DreamSSH Server
-===============
+~~~~~~~~~~~~~~~
 
 Features
---------
+========
 
 *What does this give me, over and above the default* ``manhole`` *capabilities
 of* ``twistd``?
 
 DreamSSH provides, out of the box, the following:
 
+* provides an easy mechanism for creating your own shell
+
 * configurable banner/MOTD
 
-* the ability to templatize your banner (e.g., changing the "help" based on
+* enable's server admins to templatize their banner (e.g., changing the "help" based on
   interpreter type)
 
-* it provides an easy means of generating keys (and then uses them
+* provides an easy means of generating server keys (and then uses them
   automatically)
 
-* by default, uses the local filesystems SSH keys for authenticating users
+* by default, it uses a custom directory for checking authorized SSH keys, but can
+  also use ``$HOME`` for locating authorized keys
 
-* provides an easy mechanism for creating your own shell
+* can import SSH keys from Launchpad.net
 
 
 And there's more coming:
 
 * shared sessions (multiple uses in a single space)
-
-* multiple filesystem locations for user ssh keys
 
 * user roles
 
@@ -36,7 +38,7 @@ And there's more coming:
 
 
 Install
--------
+=======
 
 You can install from PyPI, which will give you the latest released (hopefully
 stable) version of the software::
@@ -54,11 +56,21 @@ Finally, you can just get the code itself::
 
 
 Dependencies
--------------
+=============
 
-If you used ``pip`` to install DreamSSH, then you will have the necessary
-libraries installed. If you will be running from source code, you'll need to do
-the following::
+Storage in DreamSSH is handled by MongoDB, so you will need to have this
+software installed on your system. See the following for more information:
+
+* http://docs.mongodb.org/master/installation/
+
+If you used ``pip`` to install DreamSSH, then you will have most of the
+necessary libraries installed. TxMongo doesn't have a PyPI download yet, so
+you'll need to install it manually::
+
+    $ sudo pip install https://github.com/dreamhost/mongo-async-python-driver/zipball/master
+
+If you didn't use ``pip`` to install DreamSSH, you will also need to do the
+following::
 
     $ sudo pip install pyasn1
     $ sudo pip install PyCrypto
@@ -71,7 +83,7 @@ by the server::
 
 
 Running
--------
+=======
 
 Once you have DreamSSH installed, interacting with the server is as easy as the
 following::
@@ -95,18 +107,26 @@ When you're ready to shut it down::
 
     $ twistd dreamssh stop
 
+If you'd like to regenerate the config file for DreamSSH, you can do so with
+the following command::
+
+    $ twistd dreamssh generate-config
+
+The old config will be saved in the ``~/.dreamssh`` directory with a timestamp
+appended to its filename.
+
 For those who have a ``clone`` of the git repo, there are development
-convenience make targets::
+convenience make targets that mirror the above functionality::
 
     $ make keygen
     $ make daemon
     $ make run
     $ make shell
     $ make stop
-
+    $ make generate-config
 
 Using
------
+=====
 
 When you log into the Python shell::
 
@@ -163,12 +183,57 @@ The echo shell is intended to provide insight or a starting point for
 developers who want to implement their own shell their users can ssh into.
 
 Configuring
------------
+===========
 
 TBD
 
 
 Hacking
--------
+=======
 
 TBD
+
+Revision History
+================
+
+
+0.3
+---
+
+* added support for roles and restricting commands based on roles
+
+* added support for persistent storage with MongoDB
+
+* added new functions for listing logged-in users, getting user info, etc.
+
+
+0.2
+---
+
+* modular configuration using zope.components
+
+* user ssh keys that don't require a user have an account on the machine where
+  DreamSSH is running
+
+* a script class and make target for importing a user's public keys from
+  Launchpad.net
+
+* a thorough code reorganization
+
+* provide a DreamSSH sdk subpackage for use by other projects
+
+
+0.1
+---
+
+* configurable banner/MOTD
+
+* the ability to templatize your banner (e.g., changing the "help" based on
+  interpreter type)
+
+* it provides an easy means of generating keys (and then uses them
+  automatically)
+
+* by default, uses the local filesystems SSH keys for authenticating users
+
+* provides an easy mechanism for creating your own shell

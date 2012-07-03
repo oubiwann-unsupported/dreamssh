@@ -20,15 +20,20 @@ shell:
 stop:
 	@python -c "from dreamssh import app;from dreamssh.sdk import scripts;scripts.StopDaemon()"
 
+generate-config:
+	python -c "from dreamssh import app;from dreamssh.sdk import scripts;scripts.GenerateConfig();"
+
+import-keys: GAME_USER ?= 
+import-keys: LP_USER ?=
+import-keys:
+	python -c "from dreamssh import app;from dreamssh.sdk import scripts;\
+	scripts.ImportKeys('$(GAME_USER)', '$(LP_USER)');"
+
 run-test:
 	make daemon && make shell && make stop
 
 banner:
 	python -c "from $(LIB) import config; print config.ssh.banner;"
-
-generate-config:
-	rm -rf ~/.$(PROJ)/config.ini
-	python -c "from $(LIB) import config; config.writeDefaults();"
 
 log-concise:
 	git log --oneline

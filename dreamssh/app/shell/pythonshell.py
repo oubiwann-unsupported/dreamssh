@@ -128,6 +128,26 @@ class PythonInterpreter(ManholeInterpreter):
             })
         if "config" not in namespace.keys():
             namespace["config"] = config
+        # XXX maybe put this stuff in AdminCommandAPI(CommandAPI)?
+        #
+        # XXX however, in order to use this appropriately, we'd need to know
+        # the avatarId when the interpreter is created, and be able to check if
+        # that avatarId has the admin role...
+        #
+        # if admin role:
+        #tcpServer = vars(services).get("services")[0]
+        #tcpServer = vars(namespace.get("services").get("services")[0]
+        #conchFactory = vars(tcpServer)["args"][1]
+        #portal = conchFactory.portal
+        #realm = portal.realm
+        #users = realm.userComponents.keys()
+        #from twisted.conch import interfaces
+        #userReg = realm.userComponents.get(users[0])
+        #avatar = userReg.getComponent(interfaces.IConchUser)
+        #session = userReg.getComponent(interfaces.ISession)
+        #transport = session.users.get(avatar).get("transport")
+        #server = session.users.get(avatar).get("chainedProtocol")
+        #server.write("hey there!")
         self.handler.namespace.update(namespace)
 
 
