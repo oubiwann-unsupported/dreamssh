@@ -19,11 +19,11 @@ class SubCommandOptions(usage.Options):
 class Options(usage.Options):
     """
     """
-    legalInterpreters = [const.PYTHON, const.ECHO]
+    legalInterpreters = [const.PYTHON, const.ECHO, const.SHARED_PYTHON]
     optParameters = [
         ["interpreter", "i", "python",
-         ("The interpreter to use; valid options incude: "
-          ",".join(legalInterpreters))]
+         ("The interpreter to use; valid options incude: " + 
+          ", ".join(legalInterpreters))]
          ]
     subCommands = [
         ["keygen", None, SubCommandOptions,

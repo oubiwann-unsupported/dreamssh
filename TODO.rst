@@ -7,6 +7,15 @@ Bugs
 * When executing the "clear" shell command, the new screen has a newline at the
   top
 
+* Error when generating a config::
+
+    $ make generate-config
+    rm -rf ~/.dreamssh/config.ini
+    python -c "from dreamssh import config; config.writeDefaults();"
+    Traceback (most recent call last):
+      File "<string>", line 1, in <module>
+      AttributeError: 'module' object has no attribute 'writeDefaults'
+      make: *** [generate-config] Error 1
 
 Tasks
 -----

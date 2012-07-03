@@ -14,7 +14,7 @@ config = registry.getConfig()
 
 
 BANNER_HELP = ("Type 'ls()' or 'dir()' to see the objects in the "
-               "current namespace.\nUse help(...) to get API docs "
+               "current namespace.\n: Use help(...) to get API docs "
                "for available objects.")
 
 
@@ -162,3 +162,29 @@ class PythonTerminalRealm(base.ExecutingTerminalRealm):
             return self.manholeFactory(apiClass(), namespace)
 
         self.chainedProtocolFactory.protocolFactory = getManhole
+
+
+class Singleton(object):
+    """
+    Create only one instance and use that one for everything.
+    """
+    #def __new__(cls, *args, **kwargs):
+    #    if '_instance' not in vars(cls):
+    #        cls._instance = type.__new__(cls, *args, **kwargs)
+    #    return cls._instance
+    _shared_state = {}
+    def __new__(cls, *args, **kwargs):
+        obj = object.__new__(cls, *args, **kwargs)
+        obj.__dict__ = cls._shared_state
+        return obj
+
+
+class SharedPythonTerminalSession(PythonTerminalSession):
+    """
+    """
+
+
+class SharedPythonTerminalRealm(PythonTerminalRealm):
+    """
+    """
+    sessionFactory = SharedPythonTerminalSession
